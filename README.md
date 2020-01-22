@@ -22,5 +22,5 @@ For each of the 3 experiments:
 - Analyze empirical distribution with SciPy.
 - Model the empirical distribution with a theoretical distribution (parametrically or non-parametrically) with SciPy for future estimates of the same case.
 - Visualize model with matplotlib.
-- Publish both visualizations and conclusion to analysis.
+- Publish both visualizations and analysis conclusions.
 ```
