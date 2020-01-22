@@ -2,6 +2,8 @@
 
 ![#00ff00](https://placehold.it/15/00ff00/000000?text=+) ` = done`
 
+![#ffa500](https://placehold.it/15/ffa500/000000?text=+) ` = in progress`
+
 ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) ` = not done`
 
 
@@ -9,7 +11,7 @@
 ```diff
 Data Gathering:
 + Download all necessary data files from https://www.fbi.gov/services/cjis/ucr.  (completed 1/22/2020)
-- Parse fixed-length format data files and import into pandas.
+! Parse fixed-length format data files and import into pandas.  (started 1/22/2020)
 - Clean data.
 - Transform data into appropriate data types.
 - Validate data.
