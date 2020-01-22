@@ -9,7 +9,7 @@
 ```diff
 Data Gathering:
 + Download all necessary data files from https://www.fbi.gov/services/cjis/ucr.  (completed 1/22/2020)
-- Parse fixed-length format files and import into pandas.
+- Parse fixed-length format data files and import into pandas.
 - Clean data.
 - Transform data into appropriate data types.
 - Validate data.
