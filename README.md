@@ -10,9 +10,9 @@
 
 ```diff
 Data Gathering:
-+ Download all necessary data files from https://www.fbi.gov/services/cjis/ucr.  (completed 1/22/2020)
-+ Parse fixed-width format data files and import into pandas.  (completed 1/23/2020)
-! Clean data. (started 1/23/2020)
++ Download all necessary data files from https://www.fbi.gov/services/cjis/ucr.  
++ Parse fixed-width format data files and import into pandas. 
+! Clean data. 
 - Transform data into human-readable values and appropriate data types.
 - Validate data.
 - Import data into SQL Server using pyodbc + T-SQL
