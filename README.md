@@ -14,7 +14,7 @@ Data Gathering:
 + Parse fixed-width format data files and import into pandas. 
 + Clean data. 
 + Transform data into easily-readable values and appropriate data types.
-! Validate data.
+! Validate resulting data.
 - Import data into SQL Server using pyodbc + T-SQL
 
 For each of the 3 experiments:
