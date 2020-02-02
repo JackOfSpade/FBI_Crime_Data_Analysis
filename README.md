@@ -29,7 +29,7 @@ For each of the 3 experiments:
 - Manipulate table in pandas if necessary.
 - Visualize data with matplotlib.
 - Analyze empirical distribution with SciPy.
-- Model the empirical distribution with a theoretical distribution (parametrically or non-parametrically) with SciPy for future estimates of the same case.
+- Model the empirical distribution with a theoretical distribution with SciPy for future estimates of the same case.
 - Visualize model with matplotlib.
 - Publish both visualizations and analysis conclusions.
 ```
