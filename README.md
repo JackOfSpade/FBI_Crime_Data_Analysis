@@ -11,10 +11,16 @@
 ```diff
 Data Gathering:
 + Download all necessary data files from https://www.fbi.gov/services/cjis/ucr.  
-!(https://i.imgur.com/2b970ep.png) 
+```
+![](https://i.imgur.com/ZxPmSzt.png) 
+7 files, one for each year from 2010 to 2016, ~10,000,000 crimes in each file.
+```diff
 + Parse fixed-width format data files and import into pandas. 
 + Clean data. 
 + Transform data into easily-readable values and appropriate data types.
+```
+![](https://i.imgur.com/N3CWkgz.png) 
+```diff
 ! Validate resulting data.
 - Import data into SQL Server using pyodbc + T-SQL
 
