@@ -11,18 +11,25 @@
 ```diff
 Data Gathering:
 + Download all necessary data files from https://www.fbi.gov/services/cjis/ucr.  
-+ Parse fixed-width format data files and import into pandas. 
-+ Clean data. 
-+ Transform data into easily-readable values and appropriate data types.
-! Validate resulting data.
-- Import data into SQL Server using pyodbc + T-SQL
+```
+![](https://i.imgur.com/ZxPmSzt.png) 
+7 files, one for each year from 2010 to 2016, ~10,000,000 crimes in each file.
+```diff
++ Parse the fixed-width format data files and import into pandas. 
++ Clean the data. 
++ Transform the data into easily-readable values and appropriate data types.
+```
+![](https://i.imgur.com/N3CWkgz.png) 
+```diff
+! Validate the resulting data.
+- Import the data into SQL Server using pyodbc + T-SQL
 
 For each of the 3 experiments:
-- Import required table from SQL Server into pandas using pyodbc + T-SQL.
-- Manipulate table in pandas if necessary.
+- Import the required table from SQL Server into pandas using pyodbc + T-SQL.
+- Manipulate the table in pandas if necessary.
 - Visualize data with matplotlib.
-- Analyze empirical distribution with SciPy.
-- Model the empirical distribution with a theoretical distribution (parametrically or non-parametrically) with SciPy for future estimates of the same case.
-- Visualize model with matplotlib.
+- Analyze the empirical distribution with SciPy.
+- Model the empirical distribution with a theoretical distribution with SciPy for future estimates of the same case.
+- Visualize the model with matplotlib.
 - Publish both visualizations and analysis conclusions.
 ```
