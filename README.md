@@ -15,7 +15,7 @@ Data Gathering:
 ![](https://i.imgur.com/ZxPmSzt.png) 
 7 files, one for each year from 2010 to 2016, ~10,000,000 crimes in each file.
 ```diff
-+ Parse fixed-width format data files and import into pandas. 
++ Parse fixed-width format data files and import into pandas chunk by chunk. 
 + Clean data. 
 + Transform data into easily-readable values and appropriate data types.
 ```
