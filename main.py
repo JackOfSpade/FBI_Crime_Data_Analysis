@@ -1,6 +1,7 @@
 import pandas as pd
 import IPython as ip
 import numpy as np
+import pyodbc as po
 
 
 # Pre-condition: char_list is a list a character digits.
@@ -13,9 +14,44 @@ def sum_char_list(char_list):
     return sum
 
 
-def convert_1_0_strings_to_true_false_strings(df, column_name):
-    df.loc[df[column_name] == "1", column_name] = True
-    df.loc[df[column_name] == "0", column_name] = False
+def convert_1_0_strings_to_true_false_strings(df, column_name_list):
+    for x in np.arange(start=0, stop=len(column_name_list), step=1):
+        df.loc[df[column_name_list[x]] == "1", column_name_list[x]] = True
+        df.loc[df[column_name_list[x]] == "0", column_name_list[x]] = False
+
+def sum_sequence(df, column_name_list):
+    for x in np.arange(start=0, stop=len(column_name_list), step=1):
+        for (index_label, row_value) in df[column_name_list[x]].items():
+            df[column_name_list[x]][index_label] = sum_char_list(list(row_value))
+
+# TO DO------------------------------------------------------
+def export_dataframe_to_SQL_Server(df):
+    connection_string = """
+    driver=ODBC Driver 17 for SQL Server;
+    server=SHADOW-LN4F5NUO;
+    database=FBI_Crime_Data;
+    trusted_connection=True;
+    """
+
+    connection = po.connect(connection_string)
+
+    cursor = connection.cursor()
+
+    query = """
+    
+    """
+
+# TO DO------------------------------------------------------
+def validate(df):
+    # Correct column names?
+    assert(df.columns == pd.index(["Numeric State Code", "ORI Code", "Population Group (inclusive)", "Division",
+                                     "Year", "Metropolitan Statistical Area Number", "Reported by Adult Male?",
+                                     "Reported by Adult Female?", "Reported by Juvenile?", "Adjustment", "Offense Code",
+                                     "Male Pre-Teens", "Male Teenagers", "Male Young Adults", "Male Adults",
+                                     "Male Seniors", "Female Pre-Teens", "Female Teenagers", "Female Young Adults",
+                                     "Female Adults", "Female Seniors"]))
+
+    assert()
 
 
 if __name__ == "__main__":
@@ -35,79 +71,55 @@ if __name__ == "__main__":
                                         (20, 21), (21, 22), (22, 25), (40, 58), (58, 94), (94, 166), (166, 220),
                                         (220, 238), (238, 256), (256, 292), (292, 364), (364, 418), (418, 436)],
                              nrows=1000,
-                             chunksize=100000):
+                             chunksize=1000):
+        print("Import data done!")
+
         original_df = pd.concat(objs=[original_df, chunk])
-    print("Import data done!")
+        # Remove headers.
+        df = original_df.loc[pd.notna(original_df["Female Seniors"])].copy()
+        print("Remove headers done!")
 
-    # Remove headers.
-    df = original_df.loc[pd.notna(original_df["Female Seniors"])].copy()
-    print("Remove headers done!")
+        # Assign full year name.
+        df.loc[:, "Year"] = "20" + df["Year"]
+        print("Assign full year name done!")
 
-    # Assign full year name.
-    df.loc[:, "Year"] = "20" + df["Year"]
-    print("Assign full year name done!")
+        # Change 1/0 to True/False.
+        convert_1_0_strings_to_true_false_strings(df, ["Reported by Adult Male?", "Reported by Adult Female?", "Reported by Juvenile?"])
+        print("Change 1/0 to True/False done!")
 
-    # Change 1/0 to True/False.
-    convert_1_0_strings_to_true_false_strings(df, "Reported by Adult Male?")
-    convert_1_0_strings_to_true_false_strings(df, "Reported by Adult Female?")
-    convert_1_0_strings_to_true_false_strings(df, "Reported by Juvenile?")
-    print("Change 1/0 to True/False done!")
+        # Sum sequence each column's values representing number of criminals.
+        sum_sequence(df, ["Male Pre-Teens", "Male Teenagers", "Male Young Adults", "Male Adults", "Male Seniors", "Female Pre-Teens", "Female Teenagers", "Female Young Adults", "Female Seniors"])
 
-    # Sum sequence representing number of criminals.
-    for (index_label, row_value) in df["Male Pre-Teens"].items():
-        df["Male Pre-Teens"][index_label] = sum_char_list(list(row_value))
+        print("Sum sequence representing number of criminals done!")
 
-    for (index_label, row_value) in df["Male Teenagers"].items():
-        df["Male Teenagers"][index_label] = sum_char_list(list(row_value))
+        # Data type change.
+        df = df.astype(dtype={"Year": "int",
+                              "Reported by Adult Male?": "boolean",
+                              "Reported by Adult Female?": "boolean",
+                              "Reported by Juvenile?": "boolean",
+                              "Male Pre-Teens": "int",
+                              "Male Teenagers": "int",
+                              "Male Young Adults": "int",
+                              "Male Adults": "int",
+                              "Male Seniors": "int",
+                              "Female Pre-Teens": "int",
+                              "Female Teenagers": "int",
+                              "Female Young Adults": "int",
+                              "Female Adults": "int",
+                              "Female Seniors": "int"})
+        print("Data type change done!")
 
-    for (index_label, row_value) in df["Male Young Adults"].items():
-        df["Male Young Adults"][index_label] = sum_char_list(list(row_value))
+        with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+            ip.display.display(df)
 
-    for (index_label, row_value) in df["Male Adults"].items():
-        df["Male Adults"][index_label] = sum_char_list(list(row_value))
 
-    for (index_label, row_value) in df["Male Seniors"].items():
-        df["Male Seniors"][index_label] = sum_char_list(list(row_value))
 
-    for (index_label, row_value) in df["Female Pre-Teens"].items():
-        df["Female Pre-Teens"][index_label] = sum_char_list(list(row_value))
+        pass
 
-    for (index_label, row_value) in df["Female Teenagers"].items():
-        df["Female Teenagers"][index_label] = sum_char_list(list(row_value))
 
-    for (index_label, row_value) in df["Female Young Adults"].items():
-        df["Female Young Adults"][index_label] = sum_char_list(list(row_value))
 
-    for (index_label, row_value) in df["Female Adults"].items():
-        df["Female Adults"][index_label] = sum_char_list(list(row_value))
 
-    for (index_label, row_value) in df["Female Seniors"].items():
-        df["Female Seniors"][index_label] = sum_char_list(list(row_value))
-    print("Sum sequence representing number of criminals done!")
 
-    # Data type change.
-    df = df.astype(dtype={"Year": "int",
-                          "Reported by Adult Male?": "boolean",
-                          "Reported by Adult Female?": "boolean",
-                          "Reported by Juvenile?": "boolean",
-                          "Male Pre-Teens": "int",
-                          "Male Teenagers": "int",
-                          "Male Young Adults": "int",
-                          "Male Adults": "int",
-                          "Male Seniors": "int",
-                          "Female Pre-Teens": "int",
-                          "Female Teenagers": "int",
-                          "Female Young Adults": "int",
-                          "Female Adults": "int",
-                          "Female Seniors": "int"})
-    print("Data type change done!")
-
-    # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-    #     ip.display.display(df)
-
-    print(df)
-
-pass
 
 
 
