@@ -56,10 +56,7 @@ def validate(df):
 
 if __name__ == "__main__":
     # Import data.
-
-    original_df = pd.DataFrame()
-
-    for chunk in pd.read_fwf(filepath_or_buffer="data/ASR122016.TXT",
+    for df in pd.read_fwf(filepath_or_buffer="data/ASR122016.TXT",
                              names=["Numeric State Code", "ORI Code", "Population Group (inclusive)", "Division",
                                      "Year", "Metropolitan Statistical Area Number", "Reported by Adult Male?",
                                      "Reported by Adult Female?", "Reported by Juvenile?", "Adjustment", "Offense Code",
@@ -73,10 +70,9 @@ if __name__ == "__main__":
                              nrows=1000,
                              chunksize=1000):
         print("Import data done!")
-
-        original_df = pd.concat(objs=[original_df, chunk])
+		
         # Remove headers.
-        df = original_df.loc[pd.notna(original_df["Female Seniors"])].copy()
+        df = df.loc[pd.notna(original_df["Female Seniors"])].copy()
         print("Remove headers done!")
 
         # Assign full year name.
