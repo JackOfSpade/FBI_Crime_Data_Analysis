@@ -41,7 +41,6 @@ def export_dataframe_to_SQL_Server(df):
     
     """
 
-# TO DO------------------------------------------------------
 def validate(df):
     # Correct column names?
     assert(df.columns == pd.index(["Numeric State Code", "ORI Code", "Population Group (inclusive)", "Division",
@@ -51,10 +50,27 @@ def validate(df):
                                      "Male Seniors", "Female Pre-Teens", "Female Teenagers", "Female Young Adults",
                                      "Female Adults", "Female Seniors"]))
 
-    assert()
 
+
+    assert(df["Numeric State Code"].dropna().str.contains(pat="^[0-6][0-9]$", regex=True).all())
+    assert(df["Population Group (inclusive)"].dropna().str.contains(pat="^[1-9][A-E]?$", regex=True).all())
+    assert(df["Division"].dropna().str.contains(pat="^[0-9]$", regex=True).all())
+    assert(df["Year"].dropna().between(left=2010, right=2016, inclusive=True).all())
+    assert(df["Adjustment"].dropna().str.contains(pat="^[0-6]$", regex=True).all())
+    assert(df["Offense Code"].dropna().str.contains(pat="^[0-2][0-9][125]?$", regex=True).all())
 
 if __name__ == "__main__":
+    total_recrods = 0;
+    with open("data/ASR122016.TXT", mode = "r") as file:
+        line = file.readline()
+        total_recrods += 1
+        while line != "":
+            total_recrods += 1
+            line = file.readline()
+
+    chunksize = 1000
+    iteration = 0
+
     # Import data.
     for df in pd.read_fwf(filepath_or_buffer="data/ASR122016.TXT",
                              names=["Numeric State Code", "ORI Code", "Population Group (inclusive)", "Division",
@@ -67,26 +83,20 @@ if __name__ == "__main__":
                              colspecs=[(1, 3), (3, 10), (10, 12), (12, 13), (13, 15), (15, 18), (18, 19), (19, 20),
                                         (20, 21), (21, 22), (22, 25), (40, 58), (58, 94), (94, 166), (166, 220),
                                         (220, 238), (238, 256), (256, 292), (292, 364), (364, 418), (418, 436)],
-                             nrows=1000,
-                             chunksize=1000):
-        print("Import data done!")
-		
+                             chunksize=chunksize):
+        iteration += 1
+
         # Remove headers.
-        df = df.loc[pd.notna(original_df["Female Seniors"])].copy()
-        print("Remove headers done!")
+        df = df.loc[pd.notna(df["Female Seniors"])].copy()
 
         # Assign full year name.
         df.loc[:, "Year"] = "20" + df["Year"]
-        print("Assign full year name done!")
 
         # Change 1/0 to True/False.
         convert_1_0_strings_to_true_false_strings(df, ["Reported by Adult Male?", "Reported by Adult Female?", "Reported by Juvenile?"])
-        print("Change 1/0 to True/False done!")
 
         # Sum sequence each column's values representing number of criminals.
         sum_sequence(df, ["Male Pre-Teens", "Male Teenagers", "Male Young Adults", "Male Adults", "Male Seniors", "Female Pre-Teens", "Female Teenagers", "Female Young Adults", "Female Seniors"])
-
-        print("Sum sequence representing number of criminals done!")
 
         # Data type change.
         df = df.astype(dtype={"Year": "int",
@@ -103,12 +113,18 @@ if __name__ == "__main__":
                               "Female Young Adults": "int",
                               "Female Adults": "int",
                               "Female Seniors": "int"})
-        print("Data type change done!")
 
+        validate(df)
+
+        # Get progress report in console
+        percent_complete = np.round(iteration * chunksize / total_recrods * 100, decimals=2)
+        if percent_complete > 100:
+            percent_complete = 100
+        print(str(percent_complete) + "%")
+
+        # TEST
         with pd.option_context('display.max_rows', None, 'display.max_columns', None):
             ip.display.display(df)
-
-
 
         pass
 

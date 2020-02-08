@@ -43,6 +43,7 @@
     <property name="DatabaseDriversLRU" value="sqlite" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Stock_Recommendation_Analysis" />
     <property name="python.debugger.dataview.coloredbydefault" value="false" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="aDefault" />
@@ -141,6 +142,7 @@
       <workItem from="1580614861754" duration="14072000" />
       <workItem from="1580694824817" duration="135000" />
       <workItem from="1580764080483" duration="6356000" />
+      <workItem from="1581180648590" duration="10377000" />
     </task>
     <servers />
   </component>
@@ -160,10 +162,10 @@
       <screen x="0" y="0" width="2000" height="1293" />
     </state>
     <state x="764" y="529" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.2000.1293@0.0.2000.1293" timestamp="1580622709416" />
-    <state x="781" y="393" key="FileChooserDialogImpl" timestamp="1580770990057">
+    <state x="781" y="393" key="FileChooserDialogImpl" timestamp="1581204615908">
       <screen x="0" y="0" width="2000" height="1293" />
     </state>
-    <state x="781" y="393" key="FileChooserDialogImpl/0.0.2000.1293@0.0.2000.1293" timestamp="1580770990057" />
+    <state x="781" y="393" key="FileChooserDialogImpl/0.0.2000.1293@0.0.2000.1293" timestamp="1581204615908" />
     <state width="1187" height="171" key="GridCell.Tab.0.bottom" timestamp="1580770992538">
       <screen x="0" y="0" width="2000" height="1293" />
     </state>
@@ -224,7 +226,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>116</line>
+          <line>128</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
