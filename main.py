@@ -43,21 +43,23 @@ def export_dataframe_to_SQL_Server(df):
 
 def validate(df):
     # Correct column names?
-    assert(df.columns == pd.index(["Numeric State Code", "ORI Code", "Population Group (inclusive)", "Division",
+    assert(df.columns.equals(pd.Index(["Numeric State Code", "ORI Code", "Population Group (inclusive)", "Division",
                                      "Year", "Metropolitan Statistical Area Number", "Reported by Adult Male?",
                                      "Reported by Adult Female?", "Reported by Juvenile?", "Adjustment", "Offense Code",
                                      "Male Pre-Teens", "Male Teenagers", "Male Young Adults", "Male Adults",
                                      "Male Seniors", "Female Pre-Teens", "Female Teenagers", "Female Young Adults",
-                                     "Female Adults", "Female Seniors"]))
+                                     "Female Adults", "Female Seniors"])))
 
 
 
     assert(df["Numeric State Code"].dropna().str.contains(pat="^[0-6][0-9]$", regex=True).all())
     assert(df["Population Group (inclusive)"].dropna().str.contains(pat="^[1-9][A-E]?$", regex=True).all())
     assert(df["Division"].dropna().str.contains(pat="^[0-9]$", regex=True).all())
-    assert(df["Year"].dropna().between(left=2010, right=2016, inclusive=True).all())
+    assert(df["Year"].dropna().between(left=2010, right=2016).all())
     assert(df["Adjustment"].dropna().str.contains(pat="^[0-6]$", regex=True).all())
-    assert(df["Offense Code"].dropna().str.contains(pat="^[0-2][0-9][125]?$", regex=True).all())
+    assert(df["Offense Code"].dropna().str.contains(pat="^[0-2][0-9][0-9]?$", regex=True).all())
+
+
 
 if __name__ == "__main__":
     total_recrods = 0;
@@ -96,7 +98,7 @@ if __name__ == "__main__":
         convert_1_0_strings_to_true_false_strings(df, ["Reported by Adult Male?", "Reported by Adult Female?", "Reported by Juvenile?"])
 
         # Sum sequence each column's values representing number of criminals.
-        sum_sequence(df, ["Male Pre-Teens", "Male Teenagers", "Male Young Adults", "Male Adults", "Male Seniors", "Female Pre-Teens", "Female Teenagers", "Female Young Adults", "Female Seniors"])
+        sum_sequence(df, ["Male Pre-Teens", "Male Teenagers", "Male Young Adults", "Male Adults", "Male Seniors", "Female Pre-Teens", "Female Teenagers", "Female Young Adults", "Female Adults", "Female Seniors"])
 
         # Data type change.
         df = df.astype(dtype={"Year": "int",
