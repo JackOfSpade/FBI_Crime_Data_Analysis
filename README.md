@@ -21,8 +21,8 @@ Data Gathering:
 ```
 ![](https://i.imgur.com/N3CWkgz.png) 
 ```diff
-! Validate the resulting data.
-- Import the data into SQL Server using pyodbc + T-SQL
++ Validate the resulting data.
+! Import the data into SQL Server using pyodbc + T-SQL
 
 For each of the 3 experiments:
 - Import the required table from SQL Server into pandas using pyodbc + T-SQL.
