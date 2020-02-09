@@ -2,6 +2,7 @@ import pandas as pd
 import IPython as ip
 import numpy as np
 import pyodbc as po
+import re
 
 
 # Pre-condition: char_list is a list a character digits.
@@ -25,7 +26,7 @@ def sum_sequence(df, column_name_list):
             df[column_name_list[x]][index_label] = sum_char_list(list(row_value))
 
 # TO DO------------------------------------------------------
-def export_dataframe_to_SQL_Server(df):
+def export_dataframe_to_SQL_Server(df, table_name):
     connection_string = """
     driver=ODBC Driver 17 for SQL Server;
     server=SHADOW-LN4F5NUO;
@@ -35,11 +36,10 @@ def export_dataframe_to_SQL_Server(df):
 
     connection = po.connect(connection_string)
 
-    cursor = connection.cursor()
-
     query = """
     
     """
+    df.to_sql(name=table_name, con=connection, schema="fbi_crime_data", if_exists="append", index=false)
 
 def validate(df):
     # Correct column names?
@@ -59,11 +59,9 @@ def validate(df):
     assert(df["Adjustment"].dropna().str.contains(pat="^[0-6]$", regex=True).all())
     assert(df["Offense Code"].dropna().str.contains(pat="^[0-2][0-9][0-9]?$", regex=True).all())
 
-
-
-if __name__ == "__main__":
+def import_file(file_location):
     total_recrods = 0;
-    with open("data/ASR122016.TXT", mode = "r") as file:
+    with open(file_location, mode = "r") as file:
         line = file.readline()
         total_recrods += 1
         while line != "":
@@ -74,7 +72,7 @@ if __name__ == "__main__":
     iteration = 0
 
     # Import data.
-    for df in pd.read_fwf(filepath_or_buffer="data/ASR122016.TXT",
+    for df in pd.read_fwf(filepath_or_buffer=file_location,
                              names=["Numeric State Code", "ORI Code", "Population Group (inclusive)", "Division",
                                      "Year", "Metropolitan Statistical Area Number", "Reported by Adult Male?",
                                      "Reported by Adult Female?", "Reported by Juvenile?", "Adjustment", "Offense Code",
@@ -118,17 +116,20 @@ if __name__ == "__main__":
 
         validate(df)
 
+        table_name = re.search("/[a-zA-Z0-9]+.", file_location)
+        table_name = table_name.group(0)[1:-1]
+        export_dataframe_to_SQL_Server(df=df, table_name=table_name)
+
         # Get progress report in console
         percent_complete = np.round(iteration * chunksize / total_recrods * 100, decimals=2)
         if percent_complete > 100:
             percent_complete = 100
-        print(str(percent_complete) + "%")
-
-        # TEST
-        with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-            ip.display.display(df)
+        print(str(file_location) + ": " + str(percent_complete) + "%")
 
         pass
+
+if __name__ == "__main__":
+    import_file(file_location="data/ASR122016.TXT")
 
 
 
