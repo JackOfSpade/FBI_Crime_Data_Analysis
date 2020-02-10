@@ -3,9 +3,10 @@ import IPython as ip
 import numpy as np
 import pyodbc as po
 import re
+import sqlalchemy as sqlalchemy
 
 
-# Pre-condition: char_list is a list a character digits.
+# Pre-condition: char_list is a list of character digits.
 def sum_char_list(char_list):
     sum = 0
 
@@ -27,19 +28,10 @@ def sum_sequence(df, column_name_list):
 
 # TO DO------------------------------------------------------
 def export_dataframe_to_SQL_Server(df, table_name):
-    connection_string = """
-    driver=ODBC Driver 17 for SQL Server;
-    server=SHADOW-LN4F5NUO;
-    database=FBI_Crime_Data;
-    trusted_connection=True;
-    """
+    engine = sqlalchemy.create_engine("mssql+pyodbc://@" + "SHADOW-LN4F5NUO" + "/" + "FBI_Crime_Data" +
+                                      "?trusted_connection=yes&driver=ODBC+Driver+17+for+SQL+Server")
 
-    connection = po.connect(connection_string)
-
-    query = """
-    
-    """
-    df.to_sql(name=table_name, con=connection, schema="fbi_crime_data", if_exists="append", index=false)
+    df.to_sql(name=table_name, con=engine, if_exists="append", index=False)
 
 def validate(df):
     # Correct column names?
@@ -59,7 +51,30 @@ def validate(df):
     assert(df["Adjustment"].dropna().str.contains(pat="^[0-6]$", regex=True).all())
     assert(df["Offense Code"].dropna().str.contains(pat="^[0-2][0-9][0-9]?$", regex=True).all())
 
+def number_sequence_only(df, column_list):
+    for x in column_list:
+        df = df[df[x].str.contains(pat="^\d+$", regex=True)].copy()
+
+    return df
+
 def import_file(file_location):
+    connection_string = """
+    driver=ODBC Driver 17 for SQL Server;
+    server=SHADOW-LN4F5NUO;
+    database=FBI_Crime_Data;
+    trusted_connection=yes;
+    """
+
+    connection = po.connect(connection_string)
+    cursor = connection.cursor()
+
+    # ADD ALL OTHER TABLES TO DROP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    statement1 = """
+    DROP TABLE IF EXISTS ASR122016;
+    """
+    cursor.execute(statement1)
+    cursor.commit()
+
     total_recrods = 0;
     with open(file_location, mode = "r") as file:
         line = file.readline()
@@ -68,7 +83,7 @@ def import_file(file_location):
             total_recrods += 1
             line = file.readline()
 
-    chunksize = 1000
+    chunksize = 10000
     iteration = 0
 
     # Import data.
@@ -88,15 +103,21 @@ def import_file(file_location):
 
         # Remove headers.
         df = df.loc[pd.notna(df["Female Seniors"])].copy()
+        df = number_sequence_only(df, ["Male Pre-Teens", "Male Teenagers", "Male Young Adults", "Male Adults",
+                                       "Male Seniors", "Female Pre-Teens", "Female Teenagers", "Female Young Adults",
+                                       "Female Adults", "Female Seniors"])
 
         # Assign full year name.
         df.loc[:, "Year"] = "20" + df["Year"]
 
         # Change 1/0 to True/False.
-        convert_1_0_strings_to_true_false_strings(df, ["Reported by Adult Male?", "Reported by Adult Female?", "Reported by Juvenile?"])
+        convert_1_0_strings_to_true_false_strings(df, ["Reported by Adult Male?", "Reported by Adult Female?",
+                                                       "Reported by Juvenile?"])
 
         # Sum sequence each column's values representing number of criminals.
-        sum_sequence(df, ["Male Pre-Teens", "Male Teenagers", "Male Young Adults", "Male Adults", "Male Seniors", "Female Pre-Teens", "Female Teenagers", "Female Young Adults", "Female Adults", "Female Seniors"])
+        sum_sequence(df, ["Male Pre-Teens", "Male Teenagers", "Male Young Adults", "Male Adults", "Male Seniors",
+                          "Female Pre-Teens", "Female Teenagers", "Female Young Adults", "Female Adults",
+                          "Female Seniors"])
 
         # Data type change.
         df = df.astype(dtype={"Year": "int",
@@ -129,6 +150,7 @@ def import_file(file_location):
         pass
 
 if __name__ == "__main__":
+    # ADD ALL OTHER TABLES TO IMPORT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     import_file(file_location="data/ASR122016.TXT")
 
 
