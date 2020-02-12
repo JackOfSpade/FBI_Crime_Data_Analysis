@@ -1,3 +1,5 @@
+import sys
+
 import pandas as pd
 import IPython as ip
 import numpy as np
@@ -58,23 +60,6 @@ def number_sequence_only(df, column_list):
     return df
 
 def import_file(file_location):
-    connection_string = """
-    driver=ODBC Driver 17 for SQL Server;
-    server=SHADOW-LN4F5NUO;
-    database=FBI_Crime_Data;
-    trusted_connection=yes;
-    """
-
-    connection = po.connect(connection_string)
-    cursor = connection.cursor()
-
-    # ADD ALL OTHER TABLES TO DROP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    statement1 = """
-    DROP TABLE IF EXISTS ASR122016;
-    """
-    cursor.execute(statement1)
-    cursor.commit()
-
     total_recrods = 0;
     with open(file_location, mode = "r") as file:
         line = file.readline()
@@ -149,9 +134,63 @@ def import_file(file_location):
 
         pass
 
+
+def reset_database():
+    connection_string = """
+        driver=ODBC Driver 17 for SQL Server;
+        server=SHADOW-LN4F5NUO;
+        database=FBI_Crime_Data;
+        trusted_connection=yes;
+        """
+
+    connection = po.connect(connection_string)
+    cursor = connection.cursor()
+
+    # Reset Tables
+    statement_list = []
+
+    statement_list.append("""
+        DROP TABLE IF EXISTS ASR1210;   
+        """)
+
+    statement_list.append("""
+           DROP TABLE IF EXISTS ASR1211;   
+           """)
+
+    statement_list.append("""
+           DROP TABLE IF EXISTS ASR1212;   
+           """)
+
+    statement_list.append("""
+           DROP TABLE IF EXISTS ASR1213;   
+           """)
+
+    statement_list.append("""
+               DROP TABLE IF EXISTS ASR1214;   
+               """)
+
+    statement_list.append("""
+           DROP TABLE IF EXISTS ASR122016;   
+           """)
+
+    for statement in statement_list:
+        cursor.execute(statement)
+
+    cursor.commit()
+
 if __name__ == "__main__":
-    # ADD ALL OTHER TABLES TO IMPORT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    import_file(file_location="data/ASR122016.TXT")
+    user_input = input("Reset Database?\n")
+
+    if re.search("^(1|true|yes)$", user_input, flags=re.IGNORECASE):
+        reset_database()
+        import_file(file_location="data/ASR1210.DAT")
+        import_file(file_location="data/ASR1211.DAT")
+        import_file(file_location="data/ASR1212.DAT")
+        import_file(file_location="data/ASR1213.DAT")
+        import_file(file_location="data/ASR1214.DAT")
+        import_file(file_location="data/ASR122016.TXT")
+    else:
+        sys.exit()
 
 
 
