@@ -22,10 +22,10 @@ Data Gathering:
 ![](https://i.imgur.com/N3CWkgz.png) 
 ```diff
 + Validate the resulting data.
-! Import the data into SQL Server using pyodbc + T-SQL
++ Import the data into SQL Server using pyodbc + T-SQL
 
 For each of the 3 experiments:
-- Import the required table from SQL Server into pandas using pyodbc + T-SQL.
+! Import the required table from SQL Server into pandas using pyodbc + T-SQL.
 - Manipulate the table in pandas if necessary.
 - Visualize data with matplotlib.
 - Analyze the empirical distribution with SciPy.
