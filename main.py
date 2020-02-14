@@ -6,6 +6,7 @@ import numpy as np
 import pyodbc as po
 import re
 import sqlalchemy as sqlalchemy
+import matplotlib.pyplot as plt
 
 
 # Pre-condition: char_list is a list of character digits.
@@ -178,6 +179,25 @@ def reset_database():
 
     cursor.commit()
 
+def graph_crime_by_hour():
+    df = pd.read_csv(filepath_or_buffer="data\individual_crime_by_hour.csv", delimiter=",", dtype=str)
+    df = df[:-1]
+    df = df.astype(dtype={"Robbery Under 18":"float",
+                          "Robbery 18 and older":"float",
+                          "Aggravated assault Under 18":"float",
+                          "Aggravated assault 18 and older":"float",
+                          "Sexual assault Under 18": "float",
+                          "Sexual assault 18 and older": "float"})
+
+    figure, axes = plt.subplots(nrows=1, ncols=1, figsize=(15, 10))
+    axes.set_title("Robberies by Hour")
+    axes.set_ylabel("Percentage of Total Daily Robberies")
+    axes.set_xlabel("Hour of the Day")
+    axes.plot(df["Time"].to_numpy(), df["Robbery Under 18"].to_numpy()/1000, linestyle="-", color="c", label="Under 18")
+    axes.plot(df["Time"].to_numpy(), df["Robbery 18 and older"].to_numpy()/1000, linestyle="-", color="b", label ="18 and Older")
+    axes.legend()
+    figure.savefig(fname="crime_by_hour.png")
+    pass
 if __name__ == "__main__":
     user_input = input("Reset Database?\n")
 
@@ -189,8 +209,8 @@ if __name__ == "__main__":
         import_file(file_location="data/ASR1213.DAT")
         import_file(file_location="data/ASR1214.DAT")
         import_file(file_location="data/ASR122016.TXT")
-    else:
-        sys.exit()
+
+    graph_crime_by_hour()
 
 
 
