@@ -179,29 +179,31 @@ def reset_database():
 
     cursor.commit()
 
-def graph_crime_by_hour():
-    df = pd.read_csv(filepath_or_buffer="data\individual_crime_by_hour.csv", delimiter=",", dtype=str)
+def graph_crime_by_hour(df, plural, crime=None):
+    if crime is None:
+        column2 = "Under 18"
+        column3 = "18 and older"
+
+    else:
+        column2 = crime + " Under 18"
+        column3 = crime + " 18 and older"
+
+    df = df.astype(dtype={column2: "float",
+                          column3: "float"})
     df = df[:-1]
-    df = df.astype(dtype={"Robbery Under 18":"float",
-                          "Robbery 18 and older":"float",
-                          "Aggravated assault Under 18":"float",
-                          "Aggravated assault 18 and older":"float",
-                          "Sexual assault Under 18": "float",
-                          "Sexual assault 18 and older": "float"})
 
     figure, axes = plt.subplots(nrows=1, ncols=1, figsize=(15, 10))
-    axes.set_title("Robberies by Hour")
-    axes.set_ylabel("Percentage of Total Daily Robberies")
+    axes.set_title(plural + " by Hour")
+    axes.set_ylabel("Percentage of Total Daily " + plural)
     axes.set_xlabel("Hour of the Day")
-    axes.plot(df["Time"].to_numpy(), df["Robbery Under 18"].to_numpy()/1000, linestyle="-", color="c", label="Under 18")
-    axes.plot(df["Time"].to_numpy(), df["Robbery 18 and older"].to_numpy()/1000, linestyle="-", color="b", label ="18 and Older")
+    axes.plot(df["Time"].to_numpy(), df[column2].to_numpy()/1000, linestyle="-", color="c", label="Under 18")
+    axes.plot(df["Time"].to_numpy(), df[column3].to_numpy()/1000, linestyle="-", color="b", label ="18 and Older")
     axes.legend()
-    figure.savefig(fname="crime_by_hour.png")
-    pass
+    figure.savefig(fname=re.sub(pattern="\s+", repl="_", string=axes.get_title()))
 if __name__ == "__main__":
     user_input = input("Reset Database?\n")
 
-    if re.search("^(1|true|yes)$", user_input, flags=re.IGNORECASE):
+    if re.search(pattern="^(1|true|yes)$", string=user_input, flags=re.IGNORECASE):
         reset_database()
         import_file(file_location="data/ASR1210.DAT")
         import_file(file_location="data/ASR1211.DAT")
@@ -210,7 +212,13 @@ if __name__ == "__main__":
         import_file(file_location="data/ASR1214.DAT")
         import_file(file_location="data/ASR122016.TXT")
 
-    graph_crime_by_hour()
+    df1 = pd.read_csv(filepath_or_buffer="data\\individual_crime_by_hour.csv", delimiter=",", dtype=str)
+    df2 = pd.read_csv(filepath_or_buffer="data\\total_crime_by_hour.csv", delimiter=",", dtype=str)
+
+    graph_crime_by_hour(df=df1, plural="Robberies", crime="Robbery")
+    graph_crime_by_hour(df=df1, plural="Aggravated Assaults", crime="Aggravated assault")
+    graph_crime_by_hour(df=df1, plural="Sexual Assaults",crime="Sexual assault")
+    graph_crime_by_hour(df=df2, plural="Violent Crimes")
 
 
 
