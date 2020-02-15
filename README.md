@@ -26,10 +26,16 @@ Data Gathering:
 
 For each of the 3 experiments:
 ! Import the required table from SQL Server into pandas using pyodbc + T-SQL.
-- Manipulate the table in pandas if necessary.
-- Visualize data with matplotlib.
-- Analyze the empirical distribution with SciPy.
-- Model the empirical distribution with a theoretical distribution with SciPy for future estimates of the same case.
-- Visualize the model with matplotlib.
+! Manipulate the table in pandas if necessary.
+! Visualize data with matplotlib.
+! Analyze the empirical distribution with SciPy.
+! Model the empirical distribution with a theoretical distribution with SciPy for future estimates of the same case.
+! Visualize the model with matplotlib.
 - Publish both visualizations and analysis conclusions.
 ```
+
+# Preliminary Results
+![](https://i.imgur.com/axexIEg.png) 
+![](https://i.imgur.com/K0qVj9f.png) 
+![](https://i.imgur.com/ZezTi7q.png) 
+![](https://i.imgur.com/58XZE9z.png) 
