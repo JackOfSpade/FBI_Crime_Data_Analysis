@@ -7,6 +7,7 @@ import pyodbc as po
 import re
 import sqlalchemy as sqlalchemy
 import matplotlib.pyplot as plt
+import scipy.stats as st
 
 
 # Pre-condition: char_list is a list of character digits.
@@ -43,7 +44,7 @@ def validate(df):
                                      "Reported by Adult Female?", "Reported by Juvenile?", "Adjustment", "Offense Code",
                                      "Male Pre-Teens", "Male Teenagers", "Male Young Adults", "Male Adults",
                                      "Male Seniors", "Female Pre-Teens", "Female Teenagers", "Female Young Adults",
-                                     "Female Adults", "Female Seniors"])))
+                                     "Female Adults", "Female Seniors", "Total Cases"])))
 
 
 
@@ -105,6 +106,18 @@ def import_file(file_location):
                           "Female Pre-Teens", "Female Teenagers", "Female Young Adults", "Female Adults",
                           "Female Seniors"])
 
+        # Sum column
+        df["Total Cases"] = df["Male Pre-Teens"]\
+            .add(other=df["Male Teenagers"], fill_value=0)\
+            .add(other=df["Male Young Adults"], fill_value=0)\
+            .add(other=df["Male Adults"], fill_value=0)\
+            .add(other=df["Male Seniors"], fill_value=0)\
+            .add(other=df["Female Pre-Teens"], fill_value=0)\
+            .add(other=df["Female Teenagers"], fill_value=0)\
+            .add(other=df["Female Young Adults"], fill_value=0)\
+            .add(other=df["Female Adults"], fill_value=0)\
+            .add(other=df["Female Seniors"], fill_value=0)
+
         # Data type change.
         df = df.astype(dtype={"Year": "int",
                               "Reported by Adult Male?": "boolean",
@@ -119,9 +132,11 @@ def import_file(file_location):
                               "Female Teenagers": "int",
                               "Female Young Adults": "int",
                               "Female Adults": "int",
-                              "Female Seniors": "int"})
+                              "Female Seniors": "int",
+                              "Total Cases":"int"})
 
         validate(df)
+
 
         table_name = re.search("/[a-zA-Z0-9]+.", file_location)
         table_name = table_name.group(0)[1:-1]
@@ -199,7 +214,140 @@ def graph_crime_by_hour(df, plural, crime=None):
     axes.plot(df["Time"].to_numpy(), df[column2].to_numpy()/1000, linestyle="-", color="c", label="Under 18")
     axes.plot(df["Time"].to_numpy(), df[column3].to_numpy()/1000, linestyle="-", color="b", label ="18 and Older")
     axes.legend()
-    figure.savefig(fname=re.sub(pattern="\s+", repl="_", string=axes.get_title()))
+    figure.savefig(fname="graphs/" + re.sub(pattern="\s+", repl="_", string=axes.get_title()))
+
+def get_crime_numbers(cursor, table_name):
+    total_crime_count__query = """
+    SELECT SUM([Total Cases])
+    FROM """ + table_name + """
+    WHERE [Offense Code] != 18 OR [Offense Code] != 180 OR [Offense Code] != 181 OR [Offense Code] != 182 OR [Offense Code] != 183 OR [Offense Code] != 184
+    """
+
+    cursor.execute(total_crime_count__query)
+    total_crime_count = cursor.fetchval()
+
+    drug_crime_count_query = """
+    SELECT SUM([Total Cases])
+    FROM """ + table_name + """
+    WHERE [Offense Code] = 18 OR [Offense Code] = 180 OR [Offense Code] = 181 OR [Offense Code] = 182 OR [Offense Code] = 183 OR [Offense Code] = 184
+    """
+
+    cursor.execute(drug_crime_count_query)
+    drug_crime_count = cursor.fetchval()
+
+    return (total_crime_count, drug_crime_count)
+
+def graph_correlation_between_drug_abuse_and_total_crime():
+    connection_String = """
+        driver=ODBC Driver 17 for SQL Server;
+        server=SHADOW-LN4F5NUO;
+        database=FBI_Crime_Data;
+        trusted_connection=yes;
+        """
+
+    connection = po.connect(connection_String)
+    cursor = connection.cursor()
+    temp_total_crime_count_list = []
+    temp_drug_crime_count_list = []
+    table_name_list = ["ASR1210", "ASR1211", "ASR1212", "ASR1213", "ASR1214", "ASR122016"]
+
+    for table_name in table_name_list:
+        (total_crime_count, drug_crime_count) = get_crime_numbers(cursor=cursor, table_name=table_name)
+        temp_total_crime_count_list.append(total_crime_count)
+        temp_drug_crime_count_list.append(drug_crime_count)
+
+    total_crime_count_list = np.array(object=temp_total_crime_count_list)
+    drug_crime_count_list = np.array(object=temp_drug_crime_count_list)
+
+    figure, axes = plt.subplots(nrows = 1, ncols = 1, figsize=(15,10))
+    axes.set_title("Correlation Between Drug Abuse and Total Crime Over Time")
+    axes.plot([2011, 2012, 2013, 2014, 2015, 2016], total_crime_count_list, linestyle="-", color="r", label="Total Crime")
+    axes.plot([2011, 2012, 2013, 2014, 2015, 2016], drug_crime_count_list, linestyle="-", color="m", label="Drug Abuse")
+    axes.set_ylabel("Number of Cases")
+    axes.set_xlabel("Year")
+    axes.legend()
+
+    figure.savefig(fname="graphs/" + re.sub(pattern="\s+", repl="_", string=axes.get_title()))
+    print()
+    pearsons_correlation_coefficient, p_value = st.pearsonr(x=total_crime_count_list, y=drug_crime_count_list)
+    print("Pearson's Correlation Coefficient: " + str(pearsons_correlation_coefficient) +"\np-value: " + str(p_value))
+
+def get_crime_type_vs_age(connection, offense_code_list, table_name_list):
+    query_list = []
+
+    # Make query for every variant of the same offense
+    for offense_code in offense_code_list:
+        for table_name in table_name_list:
+            query_list.append("""
+            SELECT [Offense Code], [Male Pre-Teens], [Male Teenagers], [Male Young Adults], [Male Adults], [Male Seniors], [Female Pre-Teens], [Female Teenagers], [Female Young Adults], [Female Adults], [Female Seniors]
+            FROM """ + table_name + """
+            WHERE [Offense Code] = """ + offense_code + """
+            """)
+
+    pre_teen_count = 0
+    teenager_count = 0
+    young_adult_count = 0
+    adult_count = 0
+    senior_count = 0
+
+    # For every variant of the same offense...
+    for query in query_list:
+        # For each chunk of a variant
+        for chunk in pd.read_sql(sql=query, con=connection, chunksize=1000):
+            df = chunk
+            pre_teen_count += df["Male Pre-Teens"].sum() + df["Female Pre-Teens"].sum()
+            teenager_count += df["Male Teenagers"].sum() + df["Female Teenagers"].sum()
+            young_adult_count += df["Male Young Adults"].sum() + df["Female Young Adults"].sum()
+            adult_count += df["Male Adults"].sum() + df["Female Adults"].sum()
+            senior_count += df["Male Seniors"].sum() + df["Female Seniors"].sum()
+
+
+    return (pre_teen_count, teenager_count, young_adult_count, adult_count, senior_count)
+
+def graph_type_of_crime_vs_age(graph_title, offense_code_list):
+    connection_String = """
+        driver=ODBC Driver 17 for SQL Server;
+        server=SHADOW-LN4F5NUO;
+        database=FBI_Crime_Data;
+        trusted_connection=yes;
+        """
+
+    connection = po.connect(connection_String)
+    cursor = connection.cursor()
+    table_name_list = ["ASR1210", "ASR1211", "ASR1212", "ASR1213", "ASR1214", "ASR122016"]
+    # 0–12 pre-teen
+    # 13–17 teenager
+    # 18–29 young adult
+    # 30–59 adult
+    # 60+ senior
+
+    pre_teen_count, teenager_count, young_adult_count, adult_count, senior_count = get_crime_type_vs_age(connection=connection, offense_code_list=offense_code_list, table_name_list=table_name_list)
+
+    generated_data = []
+
+    for x in np.arange(start=0, stop=pre_teen_count, step=1):
+        generated_data.append(6)
+
+    for x in np.arange(start=0, stop=teenager_count, step=1):
+        generated_data.append(15)
+
+    for x in np.arange(start=0, stop=young_adult_count, step=1):
+        generated_data.append(23)
+
+    for x in np.arange(start=0, stop=adult_count, step=1):
+        generated_data.append(45)
+
+    for x in np.arange(start=0, stop=senior_count, step=1):
+        generated_data.append(80)
+
+    figure, axes = plt.subplots(nrows=1, ncols=1, figsize=(15, 10))
+    axes.set_title(graph_title)
+    axes.hist(x=generated_data, bins=[0, 13, 18, 30, 60, 100])
+    axes.set_ylabel("Cases")
+    axes.set_xlabel("Age")
+
+    figure.savefig(fname="graphs/" + re.sub(pattern="\s+", repl="_", string=axes.get_title()))
+
 if __name__ == "__main__":
     user_input = input("Reset Database?\n")
 
@@ -215,11 +363,21 @@ if __name__ == "__main__":
     df1 = pd.read_csv(filepath_or_buffer="data\\individual_crime_by_hour.csv", delimiter=",", dtype=str)
     df2 = pd.read_csv(filepath_or_buffer="data\\total_crime_by_hour.csv", delimiter=",", dtype=str)
 
-    graph_crime_by_hour(df=df1, plural="Robberies", crime="Robbery")
-    graph_crime_by_hour(df=df1, plural="Aggravated Assaults", crime="Aggravated assault")
-    graph_crime_by_hour(df=df1, plural="Sexual Assaults",crime="Sexual assault")
     graph_crime_by_hour(df=df2, plural="Violent Crimes")
 
+    graph_correlation_between_drug_abuse_and_total_crime()
+
+    graph_type_of_crime_vs_age("Murder", ["011", "012"])
+    graph_type_of_crime_vs_age("Sex Offenses", ["020", "160", "170"])
+    graph_type_of_crime_vs_age("Assault", ["040", "080"])
+    graph_type_of_crime_vs_age("Theft and Robbery", ["030", "050", "060", "070", "130", "120"])
+    graph_type_of_crime_vs_age("Destruction of Property", ["090", "140"])
+    graph_type_of_crime_vs_age("Fraud",  ["100", "110"])
+    graph_type_of_crime_vs_age("Drug Abuse", ["18", "180", "181", "182", "183", "184", "185", "186", "187", "188", "189"])
+    graph_type_of_crime_vs_age("Gambling", ["19", "191", "192", "193"])
+    graph_type_of_crime_vs_age("Driving Under the Influence", "210")
+
+    print("Done!")
 
 
 
