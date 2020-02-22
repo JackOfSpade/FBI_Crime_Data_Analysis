@@ -40,13 +40,19 @@ def export_dataframe_to_SQL_Server(df, table_name):
 def validate(df):
     # Correct column names?
     assert(df.columns.equals(pd.Index(["Numeric State Code", "ORI Code", "Population Group (inclusive)", "Division",
-                                     "Year", "Metropolitan Statistical Area Number", "Reported by Adult Male?",
-                                     "Reported by Adult Female?", "Reported by Juvenile?", "Adjustment", "Offense Code",
-                                     "Male Pre-Teens", "Male Teenagers", "Male Young Adults", "Male Adults",
-                                     "Male Seniors", "Female Pre-Teens", "Female Teenagers", "Female Young Adults",
-                                     "Female Adults", "Female Seniors", "Total Cases"])))
-
-
+                                    "Year", "Metropolitan Statistical Area Number", "Reported by Adult Male?",
+                                    "Reported by Adult Female?", "Reported by Juvenile?", "Adjustment", "Offense Code",
+                                    "Male Pre-Teens", "Male Teenagers", "Male Young Adults", "Male Adults",
+                                    "Male Seniors", "Female Pre-Teens", "Female Teenagers", "Female Young Adults",
+                                    "Female Adults", "Female Seniors", "Male < 10", "Male 10-12", "Male 13-14",
+                                    "Male 15", "Male 16", "Male 17", "Male 18", "Male 19", "Male 20", "Male 21",
+                                    "Male 22", "Male 23", "Male 24", "Male 25-29", "Male 30-34", "Male 35-39",
+                                    "Male 40-44", "Male 45-49", "Male 50-54", "Male 55-59", "Male 60-64", "Male 65-80",
+                                    "Female < 10", "Female 10-12", "Female 13-14", "Female 15", "Female 16",
+                                    "Female 17", "Female 18", "Female 19", "Female 20", "Female 21", "Female 22",
+                                    "Female 23", "Female 24", "Female 25-29", "Female 30-34", "Female 35-39",
+                                    "Female 40-44", "Female 45-49", "Female 50-54", "Female 55-59", "Female 60-64",
+                                    "Female 65-80", "Total Cases"])))
 
     assert(df["Numeric State Code"].dropna().str.contains(pat="^[0-6][0-9]$", regex=True).all())
     assert(df["Population Group (inclusive)"].dropna().str.contains(pat="^[1-9][A-E]?$", regex=True).all())
@@ -76,15 +82,31 @@ def import_file(file_location):
     # Import data.
     for df in pd.read_fwf(filepath_or_buffer=file_location,
                              names=["Numeric State Code", "ORI Code", "Population Group (inclusive)", "Division",
-                                     "Year", "Metropolitan Statistical Area Number", "Reported by Adult Male?",
-                                     "Reported by Adult Female?", "Reported by Juvenile?", "Adjustment", "Offense Code",
-                                     "Male Pre-Teens", "Male Teenagers", "Male Young Adults", "Male Adults",
-                                     "Male Seniors", "Female Pre-Teens", "Female Teenagers", "Female Young Adults",
-                                     "Female Adults", "Female Seniors"],
+                                    "Year", "Metropolitan Statistical Area Number", "Reported by Adult Male?",
+                                    "Reported by Adult Female?", "Reported by Juvenile?", "Adjustment", "Offense Code",
+                                    "Male Pre-Teens", "Male Teenagers", "Male Young Adults", "Male Adults",
+                                    "Male Seniors", "Female Pre-Teens", "Female Teenagers", "Female Young Adults",
+                                    "Female Adults", "Female Seniors", "Male < 10", "Male 10-12", "Male 13-14",
+                                    "Male 15", "Male 16", "Male 17", "Male 18", "Male 19", "Male 20", "Male 21",
+                                    "Male 22", "Male 23", "Male 24", "Male 25-29", "Male 30-34", "Male 35-39",
+                                    "Male 40-44", "Male 45-49", "Male 50-54", "Male 55-59", "Male 60-64", "Male 65-80",
+                                    "Female < 10", "Female 10-12", "Female 13-14", "Female 15", "Female 16",
+                                    "Female 17", "Female 18", "Female 19", "Female 20", "Female 21", "Female 22",
+                                    "Female 23", "Female 24", "Female 25-29", "Female 30-34", "Female 35-39",
+                                    "Female 40-44", "Female 45-49", "Female 50-54", "Female 55-59", "Female 60-64",
+                                    "Female 65-80"],
                              dtype="object",
                              colspecs=[(1, 3), (3, 10), (10, 12), (12, 13), (13, 15), (15, 18), (18, 19), (19, 20),
-                                        (20, 21), (21, 22), (22, 25), (40, 58), (58, 94), (94, 166), (166, 220),
-                                        (220, 238), (238, 256), (256, 292), (292, 364), (364, 418), (418, 436)],
+                                       (20, 21), (21, 22), (22, 25), (40, 58), (58, 94), (94, 166), (166, 220),
+                                       (220, 238), (238, 256), (256, 292), (292, 364), (364, 418), (418, 436),
+                                       (40, 49), (49, 58), (58, 67), (67, 76), (76, 85), (85, 94), (94, 103),
+                                       (103, 112), (112, 121), (121, 130), (130, 139), (139, 148), (148, 157),
+                                       (157, 166), (166, 175), (175, 184), (184, 193), (193, 202), (202, 211),
+                                       (211, 220), (220, 229), (229, 238), (238, 247), (247, 256), (256, 265),
+                                       (265, 274), (274, 283), (283, 292), (292, 301), (301, 310), (310, 319),
+                                       (319, 328), (328, 337), (337, 346), (346, 355), (355, 364), (364, 373),
+                                       (373, 382), (382, 391), (391, 400), (400, 409), (409, 418), (418, 427),
+                                       (427, 436)],
                              chunksize=chunksize):
         iteration += 1
 
@@ -104,7 +126,13 @@ def import_file(file_location):
         # Sum sequence each column's values representing number of criminals.
         sum_sequence(df, ["Male Pre-Teens", "Male Teenagers", "Male Young Adults", "Male Adults", "Male Seniors",
                           "Female Pre-Teens", "Female Teenagers", "Female Young Adults", "Female Adults",
-                          "Female Seniors"])
+                          "Female Seniors", "Male < 10", "Male 10-12", "Male 13-14", "Male 15", "Male 16", "Male 17",
+                          "Male 18", "Male 19", "Male 20", "Male 21", "Male 22", "Male 23", "Male 24", "Male 25-29",
+                          "Male 30-34", "Male 35-39", "Male 40-44", "Male 45-49", "Male 50-54", "Male 55-59",
+                          "Male 60-64", "Male 65-80", "Female < 10", "Female 10-12", "Female 13-14", "Female 15",
+                          "Female 16", "Female 17", "Female 18", "Female 19", "Female 20", "Female 21", "Female 22",
+                          "Female 23", "Female 24", "Female 25-29", "Female 30-34", "Female 35-39", "Female 40-44",
+                          "Female 45-49", "Female 50-54", "Female 55-59", "Female 60-64", "Female 65-80"])
 
         # Sum column
         df["Total Cases"] = df["Male Pre-Teens"]\
@@ -133,7 +161,51 @@ def import_file(file_location):
                               "Female Young Adults": "int",
                               "Female Adults": "int",
                               "Female Seniors": "int",
-                              "Total Cases":"int"})
+                              "Total Cases":"int",
+                              "Male < 10" : "int",
+                              "Male 10-12" : "int",
+                              "Male 13-14" : "int",
+                              "Male 15" : "int",
+                              "Male 16" : "int",
+                              "Male 17" : "int",
+                              "Male 18" : "int",
+                              "Male 19" : "int",
+                              "Male 20" : "int",
+                              "Male 21" : "int",
+                              "Male 22" : "int",
+                              "Male 23" : "int",
+                              "Male 24" : "int",
+                              "Male 25-29" : "int",
+                              "Male 30-34" : "int",
+                              "Male 35-39" : "int",
+                              "Male 40-44" : "int",
+                              "Male 45-49" : "int",
+                              "Male 50-54" : "int",
+                              "Male 55-59" : "int",
+                              "Male 60-64" : "int",
+                              "Male 65-80" : "int",
+                              "Female < 10" : "int",
+                              "Female 10-12" : "int",
+                              "Female 13-14" : "int",
+                              "Female 15" : "int",
+                              "Female 16" : "int",
+                              "Female 17" : "int",
+                              "Female 18" : "int",
+                              "Female 19" : "int",
+                              "Female 20" : "int",
+                              "Female 21" : "int",
+                              "Female 22" : "int",
+                              "Female 23" : "int",
+                              "Female 24" : "int",
+                              "Female 25-29" : "int",
+                              "Female 30-34" : "int",
+                              "Female 35-39" : "int",
+                              "Female 40-44" : "int",
+                              "Female 45-49" : "int",
+                              "Female 50-54" : "int",
+                              "Female 55-59" : "int",
+                              "Female 60-64" : "int",
+                              "Female 65-80" : "int"})
 
         validate(df)
 
@@ -147,8 +219,6 @@ def import_file(file_location):
         if percent_complete > 100:
             percent_complete = 100
         print(str(file_location) + ": " + str(percent_complete) + "%")
-
-        pass
 
 
 def reset_database():
@@ -279,32 +349,73 @@ def get_crime_type_vs_age(connection, offense_code_list, table_name_list):
     for offense_code in offense_code_list:
         for table_name in table_name_list:
             query_list.append("""
-            SELECT [Offense Code], [Male Pre-Teens], [Male Teenagers], [Male Young Adults], [Male Adults], [Male Seniors], [Female Pre-Teens], [Female Teenagers], [Female Young Adults], [Female Adults], [Female Seniors]
+            SELECT [Male < 10], [Male 10-12], [Male 13-14], [Male 15], [Male 16], [Male 17], [Male 18], [Male 19], [Male 20], [Male 21], [Male 22], [Male 23], [Male 24], [Male 25-29], [Male 30-34], [Male 35-39], [Male 40-44], [Male 45-49], [Male 50-54], [Male 55-59], [Male 60-64], [Male 65-80], [Female < 10], [Female 10-12], [Female 13-14], [Female 15],[Female 16], [Female 17], [Female 18], [Female 19], [Female 20], [Female 21], [Female 22], [Female 23], [Female 24], [Female 25-29], [Female 30-34], [Female 35-39], [Female 40-44], [Female 45-49], [Female 50-54], [Female 55-59], [Female 60-64], [Female 65-80]
             FROM """ + table_name + """
             WHERE [Offense Code] = """ + offense_code + """
             """)
 
-    pre_teen_count = 0
-    teenager_count = 0
-    young_adult_count = 0
-    adult_count = 0
-    senior_count = 0
+    s10 = 0
+    f10t12 = 0
+    f13t14 = 0
+    e15 = 0
+    e16 = 0
+    e17 = 0
+    e18 = 0
+    e19 = 0
+    e20 = 0
+    e21 = 0
+    e22 = 0
+    e23 = 0
+    e24 = 0
+    f25t29 = 0
+    f30t34 = 0
+    f35t39 = 0
+    f40t44 = 0
+    f45t49 = 0
+    f50t54 = 0
+    f55t59 = 0
+    f60t64 = 0
+    f65t80 = 0
 
     # For every variant of the same offense...
     for query in query_list:
         # For each chunk of a variant
         for chunk in pd.read_sql(sql=query, con=connection, chunksize=1000):
             df = chunk
-            pre_teen_count += df["Male Pre-Teens"].sum() + df["Female Pre-Teens"].sum()
-            teenager_count += df["Male Teenagers"].sum() + df["Female Teenagers"].sum()
-            young_adult_count += df["Male Young Adults"].sum() + df["Female Young Adults"].sum()
-            adult_count += df["Male Adults"].sum() + df["Female Adults"].sum()
-            senior_count += df["Male Seniors"].sum() + df["Female Seniors"].sum()
+            s10 += df["Male < 10"].sum() + df["Female < 10"].sum()
+            f10t12 += df["Male 10-12"].sum() + df["Female 10-12"].sum()
+            f13t14 += df["Male 13-14"].sum() + df["Female 13-14"].sum()
+            e15 += df["Male 15"].sum() + df["Female 15"].sum()
+            e16 += df["Male 16"].sum() + df["Female 16"].sum()
+            e17 += df["Male 17"].sum() + df["Female 17"].sum()
+            e18 += df["Male 18"].sum() + df["Female 18"].sum()
+            e19 += df["Male 19"].sum() + df["Female 19"].sum()
+            e20 += df["Male 20"].sum() + df["Female 20"].sum()
+            e21 += df["Male 21"].sum() + df["Female 21"].sum()
+            e22 += df["Male 22"].sum() + df["Female 22"].sum()
+            e23 += df["Male 23"].sum() + df["Female 23"].sum()
+            e24 += df["Male 24"].sum() + df["Female 24"].sum()
+            f25t29 += df["Male 25-29"].sum() + df["Female 25-29"].sum()
+            f30t34 += df["Male 30-34"].sum() + df["Female 30-34"].sum()
+            f35t39 += df["Male 35-39"].sum() + df["Female 35-39"].sum()
+            f40t44 += df["Male 40-44"].sum() + df["Female 40-44"].sum()
+            f45t49 += df["Male 45-49"].sum() + df["Female 45-49"].sum()
+            f50t54 += df["Male 50-54"].sum() + df["Female 50-54"].sum()
+            f55t59 += df["Male 55-59"].sum() + df["Female 55-59"].sum()
+            f60t64 += df["Male 60-64"].sum() + df["Female 60-64"].sum()
+            f65t80 += df["Male 65-80"].sum() + df["Female 65-80"].sum()
 
 
-    return (pre_teen_count, teenager_count, young_adult_count, adult_count, senior_count)
+    return (s10, f10t12, f13t14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, f25t29, f30t34, f35t39, f40t44, f45t49, f50t54, f55t59, f60t64, f65t80)
 
-def graph_type_of_crime_vs_age(graph_title, offense_code_list):
+def generate_data(repetition_list, data_list):
+    generated_data = []
+    for index, value in enumerate(repetition_list):
+        for y in np.arange(start=0, stop=value, step=1):
+            generated_data.append(data_list[index])
+    return generated_data
+
+def graph_and_analyze_type_of_crime_vs_age(graph_title, offense_code_list):
     connection_String = """
         driver=ODBC Driver 17 for SQL Server;
         server=SHADOW-LN4F5NUO;
@@ -321,30 +432,18 @@ def graph_type_of_crime_vs_age(graph_title, offense_code_list):
     # 30–59 adult
     # 60+ senior
 
-    pre_teen_count, teenager_count, young_adult_count, adult_count, senior_count = get_crime_type_vs_age(connection=connection, offense_code_list=offense_code_list, table_name_list=table_name_list)
+    s10, f10t12, f13t14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, f25t29, f30t34, f35t39, f40t44, f45t49, f50t54, f55t59, f60t64, f65t80  = get_crime_type_vs_age(connection=connection, offense_code_list=offense_code_list, table_name_list=table_name_list)
 
-    generated_data = []
+    generated_data = generate_data([s10, f10t12, f13t14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, f25t29, f30t34, f35t39, f40t44, f45t49, f50t54, f55t59, f60t64, f65t80], [7, 11, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 27, 32, 37, 42, 47, 52, 57, 62, 67])
 
-    for x in np.arange(start=0, stop=pre_teen_count, step=1):
-        generated_data.append(6)
-
-    for x in np.arange(start=0, stop=teenager_count, step=1):
-        generated_data.append(15)
-
-    for x in np.arange(start=0, stop=young_adult_count, step=1):
-        generated_data.append(23)
-
-    for x in np.arange(start=0, stop=adult_count, step=1):
-        generated_data.append(45)
-
-    for x in np.arange(start=0, stop=senior_count, step=1):
-        generated_data.append(80)
-
+    s10, f10t12, f13t14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, f25t29, f30t34, f35t39, f40t44, f45t49, f50t54, f55t59, f60t64, f65t80
     figure, axes = plt.subplots(nrows=1, ncols=1, figsize=(15, 10))
     axes.set_title(graph_title)
-    axes.hist(x=generated_data, bins=[0, 13, 18, 30, 60, 100])
+    axes.hist(x=generated_data, bins=[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 80])
     axes.set_ylabel("Cases")
     axes.set_xlabel("Age")
+
+
 
     figure.savefig(fname="graphs/" + re.sub(pattern="\s+", repl="_", string=axes.get_title()))
 
@@ -367,15 +466,15 @@ if __name__ == "__main__":
 
     graph_correlation_between_drug_abuse_and_total_crime()
 
-    graph_type_of_crime_vs_age("Murder", ["011", "012"])
-    graph_type_of_crime_vs_age("Sex Offenses", ["020", "160", "170"])
-    graph_type_of_crime_vs_age("Assault", ["040", "080"])
-    graph_type_of_crime_vs_age("Theft and Robbery", ["030", "050", "060", "070", "130", "120"])
-    graph_type_of_crime_vs_age("Destruction of Property", ["090", "140"])
-    graph_type_of_crime_vs_age("Fraud",  ["100", "110"])
-    graph_type_of_crime_vs_age("Drug Abuse", ["18", "180", "181", "182", "183", "184", "185", "186", "187", "188", "189"])
-    graph_type_of_crime_vs_age("Gambling", ["19", "191", "192", "193"])
-    graph_type_of_crime_vs_age("Driving Under the Influence", "210")
+    graph_and_analyze_type_of_crime_vs_age("Murder", ["011", "012"])
+    graph_and_analyze_type_of_crime_vs_age("Sex Offenses", ["020", "160", "170"])
+    graph_and_analyze_type_of_crime_vs_age("Assault", ["040", "080"])
+    graph_and_analyze_type_of_crime_vs_age("Theft and Robbery", ["030", "050", "060", "070", "130", "120"])
+    graph_and_analyze_type_of_crime_vs_age("Destruction of Property", ["090", "140"])
+    graph_and_analyze_type_of_crime_vs_age("Fraud", ["100", "110"])
+    graph_and_analyze_type_of_crime_vs_age("Drug Abuse", ["18", "180", "181", "182", "183", "184", "185", "186", "187", "188", "189"])
+    graph_and_analyze_type_of_crime_vs_age("Gambling", ["19", "191", "192", "193"])
+    graph_and_analyze_type_of_crime_vs_age("Driving Under the Influence", "210")
 
     print("Done!")
 
