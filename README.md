@@ -35,9 +35,14 @@ For each of the 3 experiments:
 ```
 
 # Preliminary Results
-![](https://i.imgur.com/axexIEg.png) 
-![](https://i.imgur.com/K0qVj9f.png) 
-![](https://i.imgur.com/ZezTi7q.png) 
-![](https://i.imgur.com/58XZE9z.png) 
+![](https://i.imgur.com/LmURaQF.png) 
 ![](https://i.imgur.com/cfE06t1.png) 
 ![](https://i.imgur.com/wXBYUEC.png)
+![]()
+![]()
+![]()
+![]()
+![]()
+![]()
+![]()
+![]()
