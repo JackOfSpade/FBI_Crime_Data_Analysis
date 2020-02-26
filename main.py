@@ -330,8 +330,8 @@ def graph_correlation_between_drug_abuse_and_total_crime():
     drug_crime_count_list = np.array(object=temp_drug_crime_count_list)
 
     figure, axes = plt.subplots(nrows = 1, ncols = 1, figsize=(15,10))
-    axes.set_title("Correlation Between Drug Abuse and Total Crime Over Time")
-    axes.plot([2011, 2012, 2013, 2014, 2015, 2016], total_crime_count_list, linestyle="-", color="r", label="Total Crime")
+    axes.set_title("Correlation Between Drug Abuse and Other Crimes Over Time")
+    axes.plot([2011, 2012, 2013, 2014, 2015, 2016], total_crime_count_list, linestyle="-", color="r", label="Crimes Excluding Drug Abuse")
     axes.plot([2011, 2012, 2013, 2014, 2015, 2016], drug_crime_count_list, linestyle="-", color="m", label="Drug Abuse")
     axes.set_ylabel("Number of Cases")
     axes.set_xlabel("Year")
@@ -439,11 +439,9 @@ def graph_and_analyze_type_of_crime_vs_age(graph_title, offense_code_list):
     s10, f10t12, f13t14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, f25t29, f30t34, f35t39, f40t44, f45t49, f50t54, f55t59, f60t64, f65t80
     figure, axes = plt.subplots(nrows=1, ncols=1, figsize=(15, 10))
     axes.set_title(graph_title)
-    axes.hist(x=generated_data, bins=[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 80])
-    axes.set_ylabel("Cases")
+    axes.hist(x=generated_data, bins=[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 80], edgecolor="#a5c8e1")
+    axes.set_ylabel("Number of Cases")
     axes.set_xlabel("Age")
-
-
 
     figure.savefig(fname="graphs/" + re.sub(pattern="\s+", repl="_", string=axes.get_title()))
 
@@ -474,7 +472,7 @@ if __name__ == "__main__":
     graph_and_analyze_type_of_crime_vs_age("Fraud", ["100", "110"])
     graph_and_analyze_type_of_crime_vs_age("Drug Abuse", ["18", "180", "181", "182", "183", "184", "185", "186", "187", "188", "189"])
     graph_and_analyze_type_of_crime_vs_age("Gambling", ["19", "191", "192", "193"])
-    graph_and_analyze_type_of_crime_vs_age("Driving Under the Influence", "210")
+    graph_and_analyze_type_of_crime_vs_age("Driving Under the Influence", ["210"])
 
     print("Done!")
 
