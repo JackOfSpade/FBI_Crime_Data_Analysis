@@ -4,13 +4,8 @@ import pandas as pd
 import scipy.stats as st
 
 # Find best-fit distribution to data
-def best_fit_distribution(data, bins=200, ax=None):
-    # Get histogram of original data
-    y, x = np.histogram(data, bins=bins, density=True)
-
-    # Get center of each bin --------------------------------
-    x = (x + np.roll(x, -1))[:-1] / 2.0
-
+# Note: x is the bin-edge centers of histogram
+def best_fit_distribution(data, y, x, bins=200, ax=None):
     # Distributions to check
     distributions = [
         st.alpha, st.anglit, st.arcsine, st.argus, st.beta, st.betaprime, st.bradford, st.burr, st.burr12, st.cauchy,
@@ -27,10 +22,9 @@ def best_fit_distribution(data, bins=200, ax=None):
         st.uniform, st.vonmises, st.vonmises_line, st.wald, st.weibull_min, st.weibull_max, st.wrapcauchy
     ]
 
-    # Best holders
     best_distribution = None
-    best_params = None
-    best_residual_sum_of_squares = None
+    best_parameters = None
+    best_residual_sum_of_squares = np.inf
 
     # Estimate distribution parameters from data
     for distribution in distributions:
@@ -38,37 +32,30 @@ def best_fit_distribution(data, bins=200, ax=None):
         # Try to fit the distribution
         try:
             # Ignore warnings from data that can't be fit
-            with warnings.catch_warnings():
-                warnings.filterwarnings('ignore')
+            # with warnings.catch_warnings():
+            #     warnings.filterwarnings('ignore')
 
-                # fit dist to data
-                params = distribution.fit(data)
+            # fit distribution to data
+            parameters = distribution.fit(data)
 
-                # Separate parts of parameters
-                arg = params[:-2]
-                loc = params[-2]
-                scale = params[-1]
+            # Separate the parameters
+            shape_parameters = parameters[:-2]
+            location_parameter = parameters[-2]
+            scale_parameter = parameters[-1]
 
-                # Calculate fitted PDF and error with fit in distribution
-                pdf = distribution.pdf(x, loc=loc, scale=scale, *arg)
-                residual_sum_of_squares = np.sum(np.power(y - pdf, 2.0))
+            # Calculate fitted PDF and error with fit in distribution
+            predicted_probability = distribution.pdf(x, shape_parameters, loc=location_parameter, scale=scale_parameter)
+            residual_sum_of_squares = np.sum(np.power(y - predicted_probability, 2.0))
 
-                # if axis pass in add to plot
-                try:
-                    if ax:
-                        pd.Series(pdf, x).plot(ax=ax)
-                except Exception:
-                    pass
-
-                # identify if this distribution is better
-                if best_residual_sum_of_squares > residual_sum_of_squares > 0:
-                    best_distribution = distribution
-                    best_params = params
-                    best_residual_sum_of_squares = residual_sum_of_squares
+            # identify if this distribution is better
+            if best_residual_sum_of_squares > residual_sum_of_squares:
+                best_distribution = distribution
+                best_parameters = (shape_parameters, location_parameter, scale_parameter)
+                best_residual_sum_of_squares = residual_sum_of_squares
 
         except Exception:
             pass
 
-    return (best_distribution.name, best_params)
+    return (best_distribution, best_parameters, best_residual_sum_of_squares)
 
-
+# best_distribution.name

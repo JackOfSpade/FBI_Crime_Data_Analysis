@@ -81,6 +81,9 @@
       <module name="FBI_Crime_Data_Analysis" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -100,6 +103,9 @@
       <module name="FBI_Crime_Data_Analysis" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -202,7 +208,9 @@
       <workItem from="1582311256856" duration="15368000" />
       <workItem from="1582402029250" duration="419000" />
       <workItem from="1582402630373" duration="4098000" />
-      <workItem from="1582671471841" duration="6005000" />
+      <workItem from="1582671471841" duration="7227000" />
+      <workItem from="1582837344006" duration="6411000" />
+      <workItem from="1583011501367" duration="648000" />
     </task>
     <servers />
   </component>
@@ -282,12 +290,12 @@
     <state width="1323" height="193" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1579857994375" />
     <state width="914" height="307" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1579820736451" />
     <state width="1957" height="503" key="GridCell.Tab.1.right/0.0.2000.1293@0.0.2000.1293" timestamp="1582323549963" />
-    <state x="335" y="36" key="SettingsEditor" timestamp="1580600994175">
+    <state x="335" y="36" key="SettingsEditor" timestamp="1582844588425">
       <screen x="0" y="0" width="2000" height="1293" />
     </state>
     <state x="229" y="20" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1579663442613" />
     <state x="322" y="29" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1579811617023" />
-    <state x="335" y="36" key="SettingsEditor/0.0.2000.1293@0.0.2000.1293" timestamp="1580600994175" />
+    <state x="335" y="36" key="SettingsEditor/0.0.2000.1293@0.0.2000.1293" timestamp="1582844588425" />
     <state x="1163" y="294" width="672" height="678" key="search.everywhere.popup" timestamp="1582321020744">
       <screen x="0" y="0" width="2000" height="1293" />
     </state>
