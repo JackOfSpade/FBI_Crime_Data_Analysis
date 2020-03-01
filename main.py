@@ -8,7 +8,7 @@ import re
 import sqlalchemy as sqlalchemy
 import matplotlib.pyplot as plt
 import scipy.stats as st
-
+import find_best_distribution as fbd
 
 # Pre-condition: char_list is a list of character digits.
 def sum_char_list(char_list):
@@ -408,12 +408,20 @@ def get_crime_type_vs_age(connection, offense_code_list, table_name_list):
 
     return (s10, f10t12, f13t14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, f25t29, f30t34, f35t39, f40t44, f45t49, f50t54, f55t59, f60t64, f65t80)
 
-def generate_data(repetition_list, data_list):
-    generated_data = []
+def generate_data(repetition_list, data_range_list):
+    generated_data = np.empty(shape=(0, 0))
     for index, value in enumerate(repetition_list):
-        for y in np.arange(start=0, stop=value, step=1):
-            generated_data.append(data_list[index])
+        generated_data = np.append(generated_data, np.linspace(start=data_range_list[index][0], stop=data_range_list[index][1]+1, num=value))
     return generated_data
+
+
+def get_center_of_bin_edges(bin_edges):
+    bin_centers = []
+
+    for x in np.arange(start=0, stop=len(bin_edges) - 1, step=1):
+        bin_centers.append((bin_edges[x] + bin_edges[x + 1]) / 2.0)
+
+    return bin_centers
 
 def graph_and_analyze_type_of_crime_vs_age(graph_title, offense_code_list):
     connection_String = """
@@ -434,16 +442,39 @@ def graph_and_analyze_type_of_crime_vs_age(graph_title, offense_code_list):
 
     s10, f10t12, f13t14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, f25t29, f30t34, f35t39, f40t44, f45t49, f50t54, f55t59, f60t64, f65t80  = get_crime_type_vs_age(connection=connection, offense_code_list=offense_code_list, table_name_list=table_name_list)
 
-    generated_data = generate_data([s10, f10t12, f13t14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, f25t29, f30t34, f35t39, f40t44, f45t49, f50t54, f55t59, f60t64, f65t80], [7, 11, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 27, 32, 37, 42, 47, 52, 57, 62, 67])
+    generated_data = generate_data([s10, f10t12, f13t14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, f25t29, f30t34, f35t39, f40t44, f45t49, f50t54, f55t59, f60t64, f65t80],
+                                   [[5, 10], [10, 12], [13, 14], [15, 15], [16, 16], [17, 17], [18, 18], [19, 19], [20, 20], [21, 21], [22, 22],
+                                    [23, 23], [24, 24], [25, 29], [30, 34], [35, 39], [40, 44], [45, 49], [50, 54], [55, 59], [60, 64], [65, 80]])
 
     s10, f10t12, f13t14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, f25t29, f30t34, f35t39, f40t44, f45t49, f50t54, f55t59, f60t64, f65t80
     figure, axes = plt.subplots(nrows=1, ncols=1, figsize=(15, 10))
     axes.set_title(graph_title)
-    axes.hist(x=generated_data, bins=[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 80], edgecolor="#a5c8e1")
-    axes.set_ylabel("Number of Cases")
+    # bins=[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 80]
+    # bins=np.arange(start=1, stop=81, step=1)
+    height_of_bins, bin_edges, patches = axes.hist(x=generated_data, bins=[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 80], edgecolor="#a5c8e1", density=True)
+    axes.set_ylabel("Percentage of Cases")
     axes.set_xlabel("Age")
 
-    figure.savefig(fname="graphs/" + re.sub(pattern="\s+", repl="_", string=axes.get_title()))
+    bin_centers = get_center_of_bin_edges(bin_edges)
+
+    # Analysis
+    file_path = "graphs/" + re.sub(pattern="\s+", repl="_", string=axes.get_title())
+    best_distribution, best_parameters, best_residual_sum_of_squares = fbd.best_fit_distribution(file_name=file_path, data=generated_data, bin_heights=height_of_bins, bin_centers=bin_centers)
+    shape_parameters, location_parameter, scale_parameter = best_parameters
+
+    x = np.linspace(start=0, stop=80, num=10000)
+    y = best_distribution.pdf(x, shape_parameters, loc=location_parameter, scale=scale_parameter)
+
+    axes.plot(x, y, linewidth=2, label=best_distribution.name)
+    axes.legend()
+    figure.savefig(fname=file_path)
+    print("Graph: " + re.sub(pattern="\s+", repl="_", string=axes.get_title()))
+    print("Shape parameters: " + str(str(shape_parameters)))
+    print("Location parameter: " + str(location_parameter))
+    print("Scale parameter: " + str(scale_parameter))
+    print("Residual sum of squares: " + str(best_residual_sum_of_squares))
+
+    #TO DO: PRINT LEAST RESIDUAL SUM OF SQUARES, MAKE LINES THICKER, SAVE DATA
 
 if __name__ == "__main__":
     user_input = input("Reset Database?\n")
@@ -465,14 +496,14 @@ if __name__ == "__main__":
     graph_correlation_between_drug_abuse_and_total_crime()
 
     graph_and_analyze_type_of_crime_vs_age("Murder", ["011", "012"])
-    graph_and_analyze_type_of_crime_vs_age("Sex Offenses", ["020", "160", "170"])
-    graph_and_analyze_type_of_crime_vs_age("Assault", ["040", "080"])
-    graph_and_analyze_type_of_crime_vs_age("Theft and Robbery", ["030", "050", "060", "070", "130", "120"])
-    graph_and_analyze_type_of_crime_vs_age("Destruction of Property", ["090", "140"])
-    graph_and_analyze_type_of_crime_vs_age("Fraud", ["100", "110"])
-    graph_and_analyze_type_of_crime_vs_age("Drug Abuse", ["18", "180", "181", "182", "183", "184", "185", "186", "187", "188", "189"])
-    graph_and_analyze_type_of_crime_vs_age("Gambling", ["19", "191", "192", "193"])
-    graph_and_analyze_type_of_crime_vs_age("Driving Under the Influence", ["210"])
+    # graph_and_analyze_type_of_crime_vs_age("Sex Offenses", ["020", "160", "170"])
+    # graph_and_analyze_type_of_crime_vs_age("Assault", ["040", "080"])
+    # graph_and_analyze_type_of_crime_vs_age("Theft and Robbery", ["030", "050", "060", "070", "130", "120"])
+    # graph_and_analyze_type_of_crime_vs_age("Destruction of Property", ["090", "140"])
+    # graph_and_analyze_type_of_crime_vs_age("Fraud", ["100", "110"])
+    # graph_and_analyze_type_of_crime_vs_age("Drug Abuse", ["18", "180", "181", "182", "183", "184", "185", "186", "187", "188", "189"])
+    # graph_and_analyze_type_of_crime_vs_age("Gambling", ["19", "191", "192", "193"])
+    # graph_and_analyze_type_of_crime_vs_age("Driving Under the Influence", ["210"])
 
     print("Done!")
 
