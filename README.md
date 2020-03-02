@@ -37,6 +37,7 @@ For each of the 3 experiments:
 # Preliminary Results
 ![](https://i.imgur.com/ZDCLw6E.png) 
 ![](https://i.imgur.com/UerzwjI.png) 
+![](https://i.imgur.com/CaFPPe7.png)
 ![](https://i.imgur.com/CG3VZxh.png) 
 ![](https://i.imgur.com/sraUU9t.png) 
 
