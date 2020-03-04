@@ -1,3 +1,17 @@
+# Preliminary Results
+![](https://i.imgur.com/eGYJADE.png)
+![](https://i.imgur.com/5E0BhCU.png)
+![](https://i.imgur.com/CaFPPe7.png)
+![](https://i.imgur.com/3VmvZ18.png)
+![](https://i.imgur.com/yO7F8S7.png)
+![](https://i.imgur.com/ivaT3Pu.png)
+![](https://i.imgur.com/YXRilmi.png)
+![](https://i.imgur.com/Kl6q3i2.png)
+![](https://i.imgur.com/0Jtmxuw.png)
+![](https://i.imgur.com/ACjUpmN.png)
+![](https://i.imgur.com/1RONXX7.png)
+![](https://i.imgur.com/FOn3BcA.png)
+
 # TO-DO:
 
 ![#00ff00](https://placehold.it/15/00ff00/000000?text=+) ` = done`
@@ -25,26 +39,11 @@ Data Gathering:
 + Import the data into SQL Server using pyodbc + T-SQL
 
 For each of the 3 experiments:
-! Import the required table from SQL Server into pandas using pyodbc + T-SQL.
-! Manipulate the table in pandas if necessary.
-! Visualize data with matplotlib.
-! Analyze the empirical distribution with SciPy.
-! Model the empirical distribution with a theoretical distribution with SciPy for future estimates of the same case.
-! Visualize the model with matplotlib.
-- Publish both visualizations and analysis conclusions.
++ Import the required table from SQL Server into pandas using pyodbc + T-SQL.
++ Manipulate the table in pandas if necessary.
++ Visualize data with matplotlib.
++ Analyze the empirical distribution with SciPy.
++ Model the empirical distribution with a theoretical distribution with SciPy for future estimates of the same case.
++ Visualize the model with matplotlib.
+! Publish both visualizations and analysis conclusions.
 ```
-
-# Preliminary Results
-![](https://i.imgur.com/ZDCLw6E.png) 
-![](https://i.imgur.com/UerzwjI.png) 
-![](https://i.imgur.com/CaFPPe7.png) 
-![](https://i.imgur.com/cEORW9S.png) 
-![](https://i.imgur.com/grF5e7D.png) 
-![](https://i.imgur.com/w10ezvC.png) 
-![](https://i.imgur.com/Ltzd5pH.png) 
-![](https://i.imgur.com/vXbGWgs.png) 
-![](https://i.imgur.com/Kty0Csk.png) 
-![](https://i.imgur.com/Sh0n08q.png) 
-![](https://i.imgur.com/4ySx88u.png) 
-![](https://i.imgur.com/x9tCDke.png) 
-
