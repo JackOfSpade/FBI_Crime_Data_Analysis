@@ -278,9 +278,9 @@ def graph_crime_by_hour(df, plural, crime=None):
     df = df[:-1]
 
     figure, axes = plt.subplots(nrows=1, ncols=1, figsize=(15, 10))
-    axes.set_title(plural + " by Hour")
-    axes.set_ylabel("Percentage of Total Daily " + plural)
-    axes.set_xlabel("Hour of the Day")
+    axes.set_title(plural + " by Hour", fontsize=20)
+    axes.set_ylabel("Percentage of Total Daily " + plural, fontsize=14)
+    axes.set_xlabel("Hour of the Day", fontsize=14)
     axes.plot(df["Time"].to_numpy(), df[column2].to_numpy()/1000, linestyle="-", color="c", label="Under 18")
     axes.plot(df["Time"].to_numpy(), df[column3].to_numpy()/1000, linestyle="-", color="b", label ="18 and Older")
     axes.legend()
@@ -330,11 +330,11 @@ def graph_correlation_between_drug_abuse_and_total_crime():
     drug_crime_count_list = np.array(object=temp_drug_crime_count_list)
 
     figure, axes = plt.subplots(nrows = 1, ncols = 1, figsize=(15,10))
-    axes.set_title("Correlation Between Drug Abuse and Other Crimes Over Time")
+    axes.set_title("Correlation Between Drug Abuse and Other Crimes Over Time", fontsize=20)
     axes.plot([2011, 2012, 2013, 2014, 2015, 2016], total_crime_count_list, linestyle="-", color="r", label="Crimes Excluding Drug Abuse")
     axes.plot([2011, 2012, 2013, 2014, 2015, 2016], drug_crime_count_list, linestyle="-", color="m", label="Drug Abuse")
-    axes.set_ylabel("Number of Cases")
-    axes.set_xlabel("Year")
+    axes.set_ylabel("Number of Cases", fontsize=14)
+    axes.set_xlabel("Year", fontsize=14)
     axes.legend()
 
     figure.savefig(fname="graphs/" + re.sub(pattern="\s+", repl="_", string=axes.get_title()))
@@ -448,12 +448,10 @@ def graph_and_analyze_type_of_crime_vs_age(graph_title, offense_code_list):
 
     s10, f10t12, f13t14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, f25t29, f30t34, f35t39, f40t44, f45t49, f50t54, f55t59, f60t64, f65t80
     figure, axes = plt.subplots(nrows=1, ncols=1, figsize=(15, 10))
-    axes.set_title(graph_title)
-    # bins=[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 80]
-    # bins=np.arange(start=1, stop=81, step=1)
+    axes.set_title(label=graph_title, fontsize=20)
     height_of_bins, bin_edges, patches = axes.hist(x=generated_data, bins=[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 80], edgecolor="#a5c8e1", density=True)
-    axes.set_ylabel("Percentage of Cases")
-    axes.set_xlabel("Age")
+    axes.set_ylabel(ylabel="Percentage of Total Cases", fontsize=14)
+    axes.set_xlabel(xlabel="Age", fontsize=14)
 
     bin_centers = get_center_of_bin_edges(bin_edges)
 
@@ -465,7 +463,7 @@ def graph_and_analyze_type_of_crime_vs_age(graph_title, offense_code_list):
     x = np.linspace(start=0, stop=80, num=10000)
     y = best_distribution.pdf(x, shape_parameters, loc=location_parameter, scale=scale_parameter)
 
-    axes.plot(x, y, linewidth=2, label=best_distribution.name)
+    axes.plot(x, y, linewidth=2, label=best_distribution.name, color="#fc0303")
     axes.legend()
     figure.savefig(fname=file_path)
     print("Graph: " + re.sub(pattern="\s+", repl="_", string=axes.get_title()))
@@ -473,6 +471,7 @@ def graph_and_analyze_type_of_crime_vs_age(graph_title, offense_code_list):
     print("Location parameter: " + str(location_parameter))
     print("Scale parameter: " + str(scale_parameter))
     print("Residual sum of squares: " + str(best_residual_sum_of_squares))
+    print("\n")
 
     #TO DO: PRINT LEAST RESIDUAL SUM OF SQUARES, MAKE LINES THICKER, SAVE DATA
 
@@ -496,14 +495,14 @@ if __name__ == "__main__":
     graph_correlation_between_drug_abuse_and_total_crime()
 
     graph_and_analyze_type_of_crime_vs_age("Murder", ["011", "012"])
-    # graph_and_analyze_type_of_crime_vs_age("Sex Offenses", ["020", "160", "170"])
-    # graph_and_analyze_type_of_crime_vs_age("Assault", ["040", "080"])
-    # graph_and_analyze_type_of_crime_vs_age("Theft and Robbery", ["030", "050", "060", "070", "130", "120"])
-    # graph_and_analyze_type_of_crime_vs_age("Destruction of Property", ["090", "140"])
-    # graph_and_analyze_type_of_crime_vs_age("Fraud", ["100", "110"])
-    # graph_and_analyze_type_of_crime_vs_age("Drug Abuse", ["18", "180", "181", "182", "183", "184", "185", "186", "187", "188", "189"])
-    # graph_and_analyze_type_of_crime_vs_age("Gambling", ["19", "191", "192", "193"])
-    # graph_and_analyze_type_of_crime_vs_age("Driving Under the Influence", ["210"])
+    graph_and_analyze_type_of_crime_vs_age("Sex Offenses", ["020", "160", "170"])
+    graph_and_analyze_type_of_crime_vs_age("Assault", ["040", "080"])
+    graph_and_analyze_type_of_crime_vs_age("Theft and Robbery", ["030", "050", "060", "070", "130", "120"])
+    graph_and_analyze_type_of_crime_vs_age("Destruction of Property", ["090", "140"])
+    graph_and_analyze_type_of_crime_vs_age("Fraud", ["100", "110"])
+    graph_and_analyze_type_of_crime_vs_age("Drug Abuse", ["18", "180", "181", "182", "183", "184", "185", "186", "187", "188", "189"])
+    graph_and_analyze_type_of_crime_vs_age("Gambling", ["19", "191", "192", "193"])
+    graph_and_analyze_type_of_crime_vs_age("Driving Under the Influence", ["210"])
 
     print("Done!")
 
