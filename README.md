@@ -35,9 +35,15 @@ For each of the 3 experiments:
 ```
 
 # Preliminary Results
-![](https://i.imgur.com/ZDCLw6E.png) 
-![](https://i.imgur.com/UerzwjI.png) 
+![](https://i.imgur.com/eGYJADE.png)
+![](https://i.imgur.com/5E0BhCU.png)
 ![](https://i.imgur.com/CaFPPe7.png)
-![](https://i.imgur.com/CG3VZxh.png) 
-![](https://i.imgur.com/sraUU9t.png) 
-
+![](https://i.imgur.com/3VmvZ18.png)
+![](https://i.imgur.com/yO7F8S7.png)
+![](https://i.imgur.com/ivaT3Pu.png)
+![](https://i.imgur.com/YXRilmi.png)
+![](https://i.imgur.com/Kl6q3i2.png)
+![](https://i.imgur.com/0Jtmxuw.png)
+![](https://i.imgur.com/ACjUpmN.png)
+![](https://i.imgur.com/1RONXX7.png)
+![](https://i.imgur.com/FOn3BcA.png)
