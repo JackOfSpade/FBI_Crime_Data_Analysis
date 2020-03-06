@@ -1,5 +1,20 @@
-# Preliminary Results
+# Which hours of the day is the safest?
 ![](https://i.imgur.com/eGYJADE.png)
+
+Conclusion: There is a sharp drop off of crimes after 11pm. The hours between 4am to 7am is the safest with a low crime rate of under 2%.
+
+Posiible explanations: 
+
+- Criminals need to sleep too.
+
+- It is harder for some crimes to occur at night, such as burglary, when there is less ambient noise to mask sound.
+
+- All night clubs close before 6:00am and the crowd usually disperse a few hours before that, leading to less chances of civilian conflicts.
+
+
+
+
+# Other Preliminary Results to be Annotated
 ![](https://i.imgur.com/5E0BhCU.png)
 ![](https://i.imgur.com/CaFPPe7.png)
 ![](https://i.imgur.com/3VmvZ18.png)
