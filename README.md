@@ -1,9 +1,9 @@
 # Which hours of the day is the safest?
 ![](https://i.imgur.com/eGYJADE.png)
 
-Conclusion: There is a sharp drop off of crimes after 11pm. The hours between 4am to 7am is the safest with a low crime rate of under 2%.
+**Conclusion:** There is a sharp drop off of crimes after 11pm. The hours between 4am to 7am is the safest with a low crime rate of under 2%.
 
-Posiible explanations: 
+**Posiible explanations:**
 
 - Criminals need to sleep too.
 
