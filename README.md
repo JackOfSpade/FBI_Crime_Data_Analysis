@@ -3,7 +3,7 @@
 
 **Conclusion:** There is a sharp drop off of crimes after 11pm. The hours between 4am to 7am is the safest with a low crime rate of under 2%.
 
-**Posiible explanations:**
+**Possible explanations:**
 
 - Criminals need to sleep too.
 
