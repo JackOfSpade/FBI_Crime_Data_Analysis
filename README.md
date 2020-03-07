@@ -7,9 +7,9 @@
 
 - Criminals need to sleep too.
 
-- It is harder for some crimes to occur at night, such as burglary, when there is less ambient noise to mask sound.
+- It is harder to successfully carry out some crimes at night, such as burglary, when there is less ambient noise to mask sound, and the high possibility that the owner is at home.
 
-- All night clubs close before 6:00am and the crowd usually disperse a few hours before that, leading to less chances of civilian conflicts.
+- Almost all Night clubs close before 6:00am and the crowd usually disperse a few hours before that, leading to less chances of civilian conflicts.
 
 # Is there a strong correlation between drug abuse and other crimes (excluding drug abuse)?
 ![](https://i.imgur.com/5E0BhCU.png)
@@ -17,6 +17,12 @@
 
 # Relation Between Each Crime Type and Convicts' Age Group
  ![](https://i.imgur.com/3VmvZ18.png)
+This histogram of the data can be modeling by an exponentially modified normal distribution. 
+
+Specifically, with parameters:
+μ=15.70
+σ=3.36
+K=4.77
 
 # Other Preliminary Results to be Annotated
 ![](https://i.imgur.com/yO7F8S7.png)
