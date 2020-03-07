@@ -1,5 +1,5 @@
 # Data Source
-- 2010-2016 raw crime data provided by the Federal Bureau of Investigation.
+- 2010-2016 crime data provided by the Federal Bureau of Investigation.
 - https://crime-data-explorer.fr.cloud.gov/downloads-and-docs
 
 # Which hours of the day is the safest?
