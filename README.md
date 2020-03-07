@@ -15,7 +15,7 @@
 ![](https://i.imgur.com/5E0BhCU.png)
 ![](https://i.imgur.com/CaFPPe7.png)
 
-# Relation Between Different Crime Types and Convicts' Age Group
+# Relations Between Different Crime Types and Convicts' Age Group
  ![](https://i.imgur.com/3VmvZ18.png)
 This empirical histogram can be modelled by an exponentially modified normal distribution. 
 
