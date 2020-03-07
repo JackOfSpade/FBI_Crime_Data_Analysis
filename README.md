@@ -11,7 +11,7 @@
 
 - Almost all Night clubs close before 6:00am and the crowd usually disperse a few hours before that, leading to less chances of civilian conflicts.
 
-# Is there a strong correlation between drug abuse and other crimes (excluding drug abuse)?
+# Is there a strong correlation between drug abuse and other crimes?
 ![](https://i.imgur.com/5E0BhCU.png)
 ![](https://i.imgur.com/CaFPPe7.png)
 
