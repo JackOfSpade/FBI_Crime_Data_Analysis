@@ -1,3 +1,7 @@
+# Data Source
+- 2010-2016 crime data provided by the Federal Bureau of Investigation.
+- https://crime-data-explorer.fr.cloud.gov/downloads-and-docs
+
 # Which hours of the day is the safest?
 ![](https://i.imgur.com/eGYJADE.png)
 
@@ -61,7 +65,7 @@ This empirical histogram can be modelled by an exponentially modified normal dis
 
 Specifically, ~exponnorm(μ = 15.24, σ = 2.57, K = 5.46)
 
-**Conclusion:** All of the distribution models are right-skewed, meaning people from the age group of 15 to 25 are the most likely to commit crimes. This is especially predominate in crimes such as driving under the influence, drug abuse and theft/robbery, which drops off significantly after age 25.
+**Conclusion:** All of the distribution models are right-skewed, meaning people from the 10-year age group of 15 to 25 commit the most crimes. This is especially predominate in crimes such as driving under the influence, drug abuse and theft/robbery, which drops off significantly after age 25.
 
 **Possible explanations:** ......
 
