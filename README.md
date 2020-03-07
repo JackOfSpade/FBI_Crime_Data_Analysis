@@ -19,13 +19,7 @@
  ![](https://i.imgur.com/3VmvZ18.png)
 This histogram of the data can be modeling by an exponentially modified normal distribution. 
 
-Specifically, with parameters:
-
-μ = 15.70
-
-σ = 3.36
-
-K = 4.77
+Specifically, ~exponnorm(μ = 15.70, σ = 3.36, K = 4.77)
 
 # Other Preliminary Results to be Annotated
 ![](https://i.imgur.com/yO7F8S7.png)
