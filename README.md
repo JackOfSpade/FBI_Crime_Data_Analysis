@@ -15,21 +15,51 @@
 ![](https://i.imgur.com/5E0BhCU.png)
 ![](https://i.imgur.com/CaFPPe7.png)
 
-# Relation Between a Crime Type and Convicts' Age Group
+# Relation Between Crime Types and Convicts' Age Group
  ![](https://i.imgur.com/3VmvZ18.png)
-This histogram of the data can be modeling by an exponentially modified normal distribution. 
+This empirical histogram can be modelled by an exponentially modified normal distribution. 
 
 Specifically, ~exponnorm(μ = 15.70, σ = 3.36, K = 4.77)
 
-# Other Preliminary Results to be Annotated
 ![](https://i.imgur.com/yO7F8S7.png)
+This empirical histogram can be modelled by an exponentially modified normal distribution. 
+
+Specifically, ~exponnorm(μ = 13.94, σ = 2.86, K = 4.63)
+
 ![](https://i.imgur.com/ivaT3Pu.png)
+This empirical histogram can be modelled by an exponentially modified normal distribution. 
+
+Specifically, ~exponnorm(μ = 18.98, σ = 1.66, K = 10.42)
+
 ![](https://i.imgur.com/YXRilmi.png)
+This empirical histogram can be modelled by an exponentially modified normal distribution. 
+
+Specifically, ~exponnorm(μ = 16.65, σ = 2.27, K = 5.73)
+
 ![](https://i.imgur.com/Kl6q3i2.png)
+This empirical histogram can be modelled by a skew-normal distribution. 
+
+Specifically, ~skewnorm(ξ = 17.89, ω = 19.97, α = 8.35)
+
 ![](https://i.imgur.com/0Jtmxuw.png)
+This empirical histogram can be modelled by a skew-normal distribution. 
+
+Specifically, ~skewnorm(ξ = 15.73, ω = 25.66, α = 12.85)
+
 ![](https://i.imgur.com/ACjUpmN.png)
+This empirical histogram can be modelled by an exponentially modified normal distribution. 
+
+Specifically, ~exponnorm(μ = 17.33, σ = 2.09, K = 6.30)
+
 ![](https://i.imgur.com/1RONXX7.png)
+This empirical histogram can be modelled by a skew-normal distribution. 
+
+Specifically, ~skewnorm(ξ = 13.53, ω = 24.24, α = 9.36)
+
 ![](https://i.imgur.com/FOn3BcA.png)
+This empirical histogram can be modelled by an exponentially modified normal distribution. 
+
+Specifically, ~exponnorm(μ = 15.24, σ = 2.57, K = 5.46)
 
 # TO-DO:
 
