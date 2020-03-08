@@ -9,7 +9,7 @@
 
 **Possible explanations:**
 
-- Almost all Night clubs close before 6:00am and the crowd usually disperse a few hours before that, leading to less chances of civilian conflicts.
+- Almost all night clubs close before 6:00am and the crowd usually disperse a few hours before that, leading to less chances of civilian conflicts.
 
 - It is harder to successfully carry out some crimes at night, such as burglary, when there is less ambient noise to mask sound, and the high possibility that the owner is at home.
 
