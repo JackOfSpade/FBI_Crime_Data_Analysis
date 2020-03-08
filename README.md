@@ -17,7 +17,7 @@
 
 # Is there a strong correlation between drug abuse and other crimes?
 ![](https://i.imgur.com/5E0BhCU.png)
-![](https://i.imgur.com/CaFPPe7.png)
+![](https://i.imgur.com/8n406Zl.png)
 
 # Relations Between Different Crime Types and Convicts' Age Group
  ![](https://i.imgur.com/3VmvZ18.png)
