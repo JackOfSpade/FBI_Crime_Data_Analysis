@@ -78,7 +78,7 @@ Specifically, ~exponnorm(μ = 15.24, σ = 2.57, K = 5.46)
 - Declining physical strength and energy with age make crimes too dangerous or unlikely to be successful, explaining the very low invlvement in the elderly and small children.
 
 
-# TO-DO:
+# Project Workflow
 
 ![#00ff00](https://placehold.it/15/00ff00/000000?text=+) ` = done`
 
@@ -86,10 +86,8 @@ Specifically, ~exponnorm(μ = 15.24, σ = 2.57, K = 5.46)
 
 ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) ` = not done`
 
-
-
 ```diff
-Data Gathering:
+Data Gathering Phase:
 + Download all necessary data files from https://www.fbi.gov/services/cjis/ucr.  
 ```
 ![](https://i.imgur.com/ZxPmSzt.png) 
@@ -104,12 +102,12 @@ Data Gathering:
 + Validate the resulting data.
 + Import the data into SQL Server using pyodbc + T-SQL
 
-For each of the 3 experiments:
+Data Analysis Phase:
 + Import the required table from SQL Server into pandas using pyodbc + T-SQL.
 + Manipulate the table in pandas if necessary.
 + Visualize data with matplotlib.
 + Analyze the empirical distribution with SciPy.
 + Model the empirical distribution with a theoretical distribution with SciPy for future estimates of the same case.
 + Visualize the model with matplotlib.
-! Publish both visualizations and analysis conclusions.
++ Publish all visualizations and analysis conclusions.
 ```
