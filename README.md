@@ -75,7 +75,7 @@ Specifically, ~exponnorm(μ = 15.24, σ = 2.57, K = 5.46)
 
 - Evidence from neuropsychology also discovered that brain development relating to maturity, decision making, impulse control, emotional regulation, delay of gratification, anticipation of consequences and resistance to peer influence continue into the mid-20s (Farrington, Loeber & Howell, 2012).
 
-- Declining physical strength and energy with age make crimes too dangerous or unlikely to be successful, explaining the very low invlvement in small children and the elderly
+- Declining physical strength and energy with age make crimes too dangerous or unlikely to be successful, explaining the very low invlvement in the elderly and small children.
 
 
 # TO-DO:
