@@ -102,7 +102,7 @@ Data Gathering Phase:
 + Validate the resulting data.
 + Import the data into SQL Server using pyodbc + T-SQL
 
-Data Analysis Phase:
+Data Analysis Phase (for each data set):
 + Import the required table from SQL Server into pandas using pyodbc + T-SQL.
 + Manipulate the table in pandas if necessary.
 + Visualize data with matplotlib.
