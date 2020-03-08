@@ -71,7 +71,7 @@ Specifically, ~exponnorm(μ = 15.24, σ = 2.57, K = 5.46)
 
 - According to economist Jeffrey Grogger, low-paying entry-level jobs repulse the younger age groups to seek criminal opportunities that offer higher payoffs.
 
-- The tendency to use physical force to resolve conflicts is more prevalent in younger age groups because communication skills have not been fully developed.
+- The tendency to use physical force to resolve conflicts is more prevalent in younger age groups because communication skills have not yet been fully developed.
 
 - Evidence from neuropsychology also discovered that brain development relating to maturity, decision making, impulse control, emotional regulation, delay of gratification, anticipation of consequences and resistance to peer influence continue into the mid-20s (Farrington, Loeber & Howell, 2012).
 
