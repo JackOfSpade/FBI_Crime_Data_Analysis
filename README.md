@@ -91,7 +91,7 @@ Data Gathering Phase:
 + Download all necessary data files from https://www.fbi.gov/services/cjis/ucr.  
 ```
 ![](https://i.imgur.com/ZxPmSzt.png) 
-7 files, one for each year from 2010 to 2016, ~10,000,000 crimes in each file.
+6 files, one for each year from 2011 to 2016, ~1,000,000 aggregate records in each file.
 ```diff
 + Parse the fixed-width format data files and import into pandas. 
 + Clean the data. 
