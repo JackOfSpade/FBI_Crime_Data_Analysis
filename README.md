@@ -69,7 +69,7 @@ Specifically, ~exponnorm(μ = 15.24, σ = 2.57, K = 5.46)
 
 **Possible explanations:** 
 
-- According to economist Jeffrey Grogger, low-paying entry-level jobs entice the younger age groups to seek criminal opportunities that offer higher payoffs.
+- According to economist Jeffrey Grogger, low-paying entry-level jobs repulse the younger age groups to seek criminal opportunities that offer higher payoffs.
 
 - The tendency to use physical force to resolve conflicts is more prevalent in younger age groups because communication skills have not been fully developed.
 
