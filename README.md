@@ -9,11 +9,12 @@
 
 **Possible explanations:**
 
-- Criminals need to sleep too.
-
 - It is harder to successfully carry out some crimes at night, such as burglary, when there is less ambient noise to mask sound, and the high possibility that the owner is at home.
 
+- Criminals need to sleep too.
+
 - Almost all Night clubs close before 6:00am and the crowd usually disperse a few hours before that, leading to less chances of civilian conflicts.
+
 
 # Is there a strong correlation between drug abuse and other crimes?
 ![](https://i.imgur.com/5E0BhCU.png)
@@ -67,7 +68,16 @@ Specifically, ~exponnorm(μ = 15.24, σ = 2.57, K = 5.46)
 
 **Conclusion:** All of the distribution models are right-skewed, meaning people from the 10-year age group of 15 to 25 commit the most crimes. This is especially predominate in crimes such as driving under the influence, drug abuse and theft/robbery, which drops off significantly after age 25.
 
-**Possible explanations:** ......
+**Possible explanations:** 
+
+- According to economist Jeffrey Grogger, low-paying entry-level jobs entice the younger age groups to seek criminal opportunities that offer higher payoffs.
+
+- The tendency to use physical force to resolve conflicts is more prevalent in younger age groups because communication skills have not been fully developed.
+
+- Evidence from neuropsychology also discovered that brain development relating to maturity, decision making, impulse control, emotional regulation, delay of gratification, anticipation of consequences and resistance to peer influence continue into the mid-20s (Farrington, Loeber & Howell, 2012).
+
+- Declining physical strength and energy with age make crimes too dangerous or unlikely to be successful, explaining the very low invlvement in small children and the elderly
+
 
 # TO-DO:
 
