@@ -339,8 +339,8 @@ def graph_correlation_between_drug_abuse_and_total_crime():
 
     figure.savefig(fname="graphs/" + re.sub(pattern="\s+", repl="_", string=axes.get_title()))
     print()
-    pearsons_correlation_coefficient, p_value = st.pearsonr(x=total_crime_count_list, y=drug_crime_count_list)
-    print("Pearson's Correlation Coefficient: " + str(pearsons_correlation_coefficient) +"\np-value: " + str(p_value))
+    spearmans_rank_correlation_coefficient, p_value = st.spearmanr(a=total_crime_count_list, b=drug_crime_count_list)
+    print("Spearman's Rank Correlation Coefficient: " + str(spearmans_rank_correlation_coefficient) +"\np-value: " + str(p_value))
 
 def get_crime_type_vs_age(connection, offense_code_list, table_name_list):
     query_list = []
