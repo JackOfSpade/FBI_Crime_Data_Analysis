@@ -103,6 +103,9 @@
       <module name="FBI_Crime_Data_Analysis" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -216,6 +219,7 @@
       <workItem from="1583512182043" duration="3352000" />
       <workItem from="1583557700399" duration="919000" />
       <workItem from="1583712421863" duration="1619000" />
+      <workItem from="1587072623235" duration="50000" />
     </task>
     <servers />
   </component>
